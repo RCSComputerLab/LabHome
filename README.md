@@ -1,0 +1,2 @@
+# LabHome
+Browser landing page
