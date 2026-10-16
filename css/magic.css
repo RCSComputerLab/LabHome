@@ -1,0 +1,169 @@
+/* ==========================================================
+   Shared theme: night sky, aurora, glass, holographic edges
+   ========================================================== */
+
+@property --holo-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+:root {
+  --night-1: #0a0a2e;
+  --night-2: #1a1050;
+  --night-3: #2a0f5c;
+  --ink: #ffffff;
+  --ink-soft: rgba(255, 255, 255, 0.78);
+  --ink-faint: rgba(255, 255, 255, 0.55);
+
+  --glass: rgba(255, 255, 255, 0.10);
+  --glass-strong: rgba(255, 255, 255, 0.16);
+  --glass-edge: rgba(255, 255, 255, 0.28);
+  --glass-shadow: 0 10px 40px rgba(5, 0, 30, 0.45);
+
+  --rainbow: #ff6b9d, #ff9f43, #feca57, #7bed9f, #48dbfb, #a29bfe, #d980fa, #ff6b9d;
+  --holo-soft: linear-gradient(120deg, #ffd1f1, #c9f0ff 30%, #e3d4ff 55%, #fff4c9 80%, #ffd1f1);
+
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+
+  --font: 'Fredoka', 'Nunito', 'Segoe UI Rounded', 'Segoe UI', system-ui, sans-serif;
+  --font-tech: 'Orbitron', 'Fredoka', system-ui, sans-serif;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body { margin: 0; min-height: 100%; }
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 700px at 15% -10%, #3b1a8a 0%, transparent 60%),
+    radial-gradient(900px 600px at 100% 10%, #0e3a7a 0%, transparent 60%),
+    linear-gradient(180deg, var(--night-1) 0%, var(--night-2) 55%, var(--night-3) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Sky layers ---------- */
+
+.sky {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.aurora span {
+  position: absolute;
+  width: 55vmax;
+  height: 55vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.38;
+  mix-blend-mode: screen;
+  animation: drift 26s ease-in-out infinite alternate;
+}
+.aurora span:nth-child(1) { background: #ff4fa3; top: -20vmax; left: -10vmax; }
+.aurora span:nth-child(2) { background: #3fb8ff; top: -15vmax; right: -15vmax; animation-delay: -8s; animation-duration: 32s; }
+.aurora span:nth-child(3) { background: #8b5cff; bottom: -25vmax; left: 20vw; animation-delay: -14s; animation-duration: 38s; }
+.aurora span:nth-child(4) { background: #2ef2c0; bottom: -30vmax; right: -10vmax; opacity: 0.22; animation-delay: -4s; }
+
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(6vw, 4vh) scale(1.12); }
+  100% { transform: translate(-4vw, 8vh) scale(0.95); }
+}
+
+#stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.horizon-glow {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 32vh;
+  background: linear-gradient(0deg, rgba(255, 120, 200, 0.18), transparent);
+}
+
+/* ---------- Glass ---------- */
+
+.glass {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-radius: var(--radius-lg);
+}
+
+/* Rainbow edge drawn as a masked ring */
+.holo-edge { position: relative; isolation: isolate; }
+.holo-edge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--holo-angle), var(--rainbow));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+  animation: holo-spin 6s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+@keyframes holo-spin { to { --holo-angle: 360deg; } }
+
+.holo-text {
+  background: linear-gradient(90deg, #ffb3e6, #ffe08a, #9ff5d0, #9ad8ff, #d5b8ff, #ffb3e6);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: holo-slide 10s linear infinite;
+}
+@keyframes holo-slide { to { background-position: 300% 0; } }
+
+/* ---------- Sparkles ---------- */
+
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  background: var(--c, #fff);
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  animation: sparkle-fade var(--life, 800ms) ease-out forwards;
+  filter: drop-shadow(0 0 6px var(--c, #fff));
+}
+@keyframes sparkle-fade {
+  0%   { transform: translate(0, 0) scale(0.2) rotate(0deg); opacity: 1; }
+  30%  { transform: translate(calc(var(--dx) * 0.4), calc(var(--dy) * 0.4)) scale(1) rotate(60deg); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0) rotate(160deg); opacity: 0; }
+}
+
+/* ---------- Motion safety ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

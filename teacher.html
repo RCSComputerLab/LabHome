@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teacher Control Center</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪄</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/magic.css">
+  <link rel="stylesheet" href="css/student.css">
+  <link rel="stylesheet" href="css/teacher.css">
+</head>
+<body class="teacher">
+  <header class="topbar glass">
+    <div class="brand">
+      <span class="brand-icon">🪄</span>
+      <div>
+        <div class="brand-title holo-text">Teacher Control Center</div>
+        <div class="brand-sub" id="conn-pill">Not connected</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a class="btn ghost" href="./" target="_blank" rel="noopener">👀 Student view</a>
+      <button class="btn primary" id="publish-btn" disabled>✨ All changes published</button>
+    </div>
+  </header>
+
+  <main class="t-page">
+    <div id="setup-banner" class="notice glass" hidden></div>
+
+    <!-- Quick controls: these publish right away -->
+    <section class="quick">
+      <div class="quick-card glass holo-edge" id="freeday-card">
+        <div class="quick-head">
+          <span class="quick-emoji">🎉</span>
+          <div>
+            <h2>Free Day</h2>
+            <p class="muted">Changes go live right away</p>
+          </div>
+        </div>
+        <div class="freeday-state" id="freeday-state"></div>
+        <div class="btn-row" id="freeday-actions"></div>
+        <label class="field compact">
+          <span>Message when locked</span>
+          <input type="text" id="freeday-message" maxlength="80" placeholder="Ask your teacher to unlock it!">
+        </label>
+      </div>
+
+      <div class="quick-card glass">
+        <div class="quick-head">
+          <span class="quick-emoji">🎒</span>
+          <div>
+            <h2>Class in the lab</h2>
+            <p class="muted">Only show sites for this grade</p>
+          </div>
+        </div>
+        <div class="segmented" id="grade-picker"></div>
+      </div>
+
+      <div class="quick-card glass">
+        <div class="quick-head">
+          <span class="quick-emoji">⭐</span>
+          <div>
+            <h2>Today's Mission</h2>
+            <p class="muted">One big glowing card at the top</p>
+          </div>
+        </div>
+        <select id="spotlight-select" class="select"></select>
+      </div>
+    </section>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="sites" role="tab">🌐 Websites</button>
+      <button class="tab" data-tab="sections" role="tab">🗂️ Sections</button>
+      <button class="tab" data-tab="settings" role="tab">🎨 Look &amp; feel</button>
+      <button class="tab" data-tab="connect" role="tab">🔗 GitHub &amp; backup</button>
+    </nav>
+
+    <!-- Websites -->
+    <section class="tab-panel" id="tab-sites">
+      <div class="panel-head">
+        <p class="muted">Drag the <b>⠿</b> handle to reorder, or drop a site into a different section. Press <b>Publish</b> when you're done.</p>
+        <button class="btn primary" id="add-site-btn">➕ Add a website</button>
+      </div>
+      <div id="site-groups"></div>
+    </section>
+
+    <!-- Sections -->
+    <section class="tab-panel" id="tab-sections" hidden>
+      <div class="panel-head">
+        <p class="muted">Sections are the groups on the student page. Free Day is special and can't be removed.</p>
+        <button class="btn primary" id="add-section-btn">➕ Add a section</button>
+      </div>
+      <div id="section-list" class="stack"></div>
+    </section>
+
+    <!-- Settings -->
+    <section class="tab-panel" id="tab-settings" hidden>
+      <div class="glass panel-body form-grid">
+        <label class="field">
+          <span>Page title</span>
+          <input type="text" id="set-className" maxlength="60">
+        </label>
+        <label class="field">
+          <span>Tagline</span>
+          <input type="text" id="set-tagline" maxlength="80">
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="set-showClock">
+          <span class="switch"></span>
+          <span>Show the clock</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="set-sparkles">
+          <span class="switch"></span>
+          <span>Pixie-dust sparkles follow the mouse</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="set-openInNewTab">
+          <span class="switch"></span>
+          <span>Open websites in a new tab <small class="muted">(off is easier for little ones — they just press Back)</small></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Connection -->
+    <section class="tab-panel" id="tab-connect" hidden>
+      <div class="glass panel-body">
+        <h3>Connect to GitHub</h3>
+        <p class="muted">This lets the control center save straight to your GitHub site, so every lab computer updates by itself. You only do this once per teacher computer.</p>
+        <div class="form-grid three">
+          <label class="field"><span>GitHub username</span><input type="text" id="gh-owner" autocomplete="off" spellcheck="false"></label>
+          <label class="field"><span>Repository name</span><input type="text" id="gh-repo" autocomplete="off" spellcheck="false"></label>
+          <label class="field"><span>Branch</span><input type="text" id="gh-branch" value="main" autocomplete="off" spellcheck="false"></label>
+        </div>
+        <label class="field">
+          <span>Access token</span>
+          <input type="password" id="gh-token" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="gh-remember" checked>
+          <span class="switch"></span>
+          <span>Remember on this computer <small class="muted">(only on <b>your</b> teacher computer — never a student one)</small></span>
+        </label>
+        <div class="btn-row">
+          <button class="btn primary" id="gh-connect">🔗 Connect</button>
+          <button class="btn ghost" id="gh-forget">Forget token</button>
+        </div>
+
+        <details class="help">
+          <summary>How do I get an access token?</summary>
+          <ol>
+            <li>On GitHub, open <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens</b>, then click <b>Generate new token</b>.</li>
+            <li>Name it something like <i>Lab dashboard</i> and pick an expiration (up to a year).</li>
+            <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick this site's repository.</li>
+            <li>Under <b>Permissions → Repository permissions</b>, set <b>Contents</b> to <b>Read and write</b>.</li>
+            <li>Click <b>Generate token</b>, copy it, and paste it above.</li>
+          </ol>
+          <p class="muted">The token can only change this one repository. If it ever gets out, delete it on GitHub and make a new one.</p>
+        </details>
+      </div>
+
+      <div class="glass panel-body">
+        <h3>Backup</h3>
+        <p class="muted">Download a copy of all your sites and settings, or load one back in.</p>
+        <div class="btn-row">
+          <button class="btn ghost" id="export-btn">⬇️ Download backup</button>
+          <label class="btn ghost file-btn">⬆️ Load a backup<input type="file" id="import-file" accept=".json,application/json"></label>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site editor -->
+  <dialog id="site-dialog" class="dialog glass">
+    <form method="dialog" id="site-form">
+      <div class="dialog-head">
+        <h2 id="site-dialog-title">Add a website</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="dialog-body">
+        <div class="editor-fields">
+          <label class="field"><span>Name kids will see</span><input type="text" id="f-name" required maxlength="40" placeholder="Epic"></label>
+          <label class="field"><span>Website address</span><input type="url" id="f-url" required placeholder="https://www.getepic.com"></label>
+          <label class="field"><span>Section</span><select id="f-section" class="select"></select></label>
+
+          <div class="field">
+            <span>Logo</span>
+            <div class="segmented small" id="f-logo-mode">
+              <button type="button" data-mode="auto">Website's icon</button>
+              <button type="button" data-mode="link">Image link</button>
+              <button type="button" data-mode="upload">Upload</button>
+              <button type="button" data-mode="emoji">Emoji only</button>
+            </div>
+            <div class="logo-extra" data-for="link"><input type="url" id="f-logo-url" placeholder="https://…/logo.png"><small class="muted">Tip: right-click a logo on the site → <i>Copy image address</i>.</small></div>
+            <div class="logo-extra" data-for="upload"><label class="btn ghost file-btn">📁 Choose a picture<input type="file" id="f-logo-file" accept="image/*"></label><small class="muted" id="f-upload-note">PNG or JPG. It'll be shrunk to fit.</small></div>
+          </div>
+
+          <label class="field"><span>Emoji <small class="muted">(used if the logo can't load)</small></span><input type="text" id="f-emoji" maxlength="4" placeholder="📚"></label>
+
+          <div class="field">
+            <span>Card color</span>
+            <div class="swatches" id="f-colors"></div>
+          </div>
+
+          <div class="field">
+            <span>Grades <small class="muted">(none picked = everyone)</small></span>
+            <div class="chips" id="f-grades"></div>
+          </div>
+
+          <label class="toggle">
+            <input type="checkbox" id="f-hidden">
+            <span class="switch"></span>
+            <span>Hide from students for now</span>
+          </label>
+        </div>
+
+        <div class="editor-preview">
+          <div class="muted preview-label">Preview</div>
+          <div id="f-preview"></div>
+        </div>
+      </div>
+      <div class="dialog-foot">
+        <button type="button" class="btn danger ghost" id="f-delete">🗑 Remove</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn ghost" data-close>Cancel</button>
+        <button type="submit" class="btn primary" id="f-save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="js/common.js"></script>
+  <script src="js/sky.js"></script>
+  <script src="js/github.js"></script>
+  <script src="js/teacher.js"></script>
+</body>
+</html>
