@@ -44,10 +44,11 @@
     {
       "id": "clever",
       "name": "Clever",
-      "url": "https://clever.com/login",
+      "url": "https://clever.com/oauth/badges/login?target=NjMxODkxN2Q2ZWIzYjNjMWJkMmJkNTdi%3BNGM2M2MxY2Y2MjNkY2U4MmNhYWM%3D%3BaHR0cHM6Ly9jbGV2ZXIuY29tL2luL2F1dGhfY2FsbGJhY2s%3D%3BNTRkMGVlMmM1NGE5NjYwMDgwZDIwY2IxZDEwNWMwNzMyMDJkOTZmZDFkNjk1MTZiNmYxMjFhMTJhYTc5MDE0Mg%3D%3D%3BY29kZQ%3D%3D%3B",
       "section": "start",
       "grades": [],
-      "color": "#54a0ff"
+      "color": "#54a0ff",
+      "emoji": ""
     },
     {
       "id": "codeorg",
