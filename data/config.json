@@ -1,9 +1,9 @@
 {
   "version": 1,
   "settings": {
-    "className": "Our Magical Computer Lab",
+    "className": "Redeemer Computer Lab",
     "tagline": "Where learning is magic",
-    "openInNewTab": false,
+    "openInNewTab": true,
     "showClock": true,
     "sparkles": true
   },
@@ -15,27 +15,149 @@
   "currentGrade": "all",
   "spotlight": null,
   "sections": [
-    { "id": "start", "name": "Start Here", "emoji": "🚀", "color": "#48dbfb" },
-    { "id": "reading", "name": "Reading", "emoji": "📚", "color": "#ff7eb6" },
-    { "id": "math", "name": "Math", "emoji": "🔢", "color": "#feca57" },
-    { "id": "typing", "name": "Typing & Coding", "emoji": "⌨️", "color": "#7bed9f" },
-    { "id": "freeday", "name": "Free Day", "emoji": "🎉", "color": "#d980fa" }
+    {
+      "id": "start",
+      "name": "Start Here",
+      "emoji": "🚀",
+      "color": "#48dbfb"
+    },
+    {
+      "id": "typing",
+      "name": "Coding",
+      "emoji": "⌨️",
+      "color": "#7bed9f"
+    },
+    {
+      "id": "omruag2",
+      "name": "Productivity",
+      "emoji": "✨",
+      "color": "#2ed8b6"
+    },
+    {
+      "id": "freeday",
+      "name": "Free Day",
+      "emoji": "🎉",
+      "color": "#d980fa"
+    }
   ],
   "sites": [
-    { "id": "clever", "name": "Clever", "url": "https://clever.com/login", "section": "start", "grades": [], "color": "#54a0ff" },
-    { "id": "seesaw", "name": "Seesaw", "url": "https://app.seesaw.me", "section": "start", "grades": [], "color": "#2ed8b6" },
-    { "id": "epic", "name": "Epic", "url": "https://www.getepic.com", "section": "reading", "grades": [], "color": "#ff6b9d" },
-    { "id": "starfall", "name": "Starfall", "url": "https://www.starfall.com", "section": "reading", "grades": ["K", "1", "2"], "color": "#feca57" },
-    { "id": "razkids", "name": "Raz-Kids", "url": "https://www.raz-kids.com", "section": "reading", "grades": [], "color": "#ff9f43" },
-    { "id": "prodigy", "name": "Prodigy", "url": "https://www.prodigygame.com", "section": "math", "grades": ["1", "2", "3", "4"], "color": "#a29bfe" },
-    { "id": "abcya", "name": "ABCya", "url": "https://www.abcya.com", "section": "math", "grades": [], "color": "#7bed9f" },
-    { "id": "ixl", "name": "IXL", "url": "https://www.ixl.com", "section": "math", "grades": [], "color": "#48dbfb" },
-    { "id": "typingclub", "name": "TypingClub", "url": "https://www.typingclub.com", "section": "typing", "grades": ["2", "3", "4"], "color": "#2ed8b6" },
-    { "id": "codeorg", "name": "Code.org", "url": "https://studio.code.org", "section": "typing", "grades": [], "color": "#d980fa" },
-    { "id": "pbskids", "name": "PBS Kids Games", "url": "https://pbskids.org/games", "section": "freeday", "grades": [], "color": "#54a0ff" },
-    { "id": "toytheater", "name": "Toy Theater", "url": "https://toytheater.com", "section": "freeday", "grades": [], "color": "#ff9f43" },
-    { "id": "musiclab", "name": "Chrome Music Lab", "url": "https://musiclab.chromeexperiments.com", "section": "freeday", "grades": [], "color": "#ff6b9d" },
-    { "id": "natgeokids", "name": "Nat Geo Kids", "url": "https://kids.nationalgeographic.com", "section": "freeday", "grades": [], "color": "#feca57" },
-    { "id": "scratch", "name": "Scratch", "url": "https://scratch.mit.edu", "section": "freeday", "grades": ["3", "4"], "color": "#ff9f43" }
+    {
+      "id": "clever",
+      "name": "Clever",
+      "url": "https://clever.com/login",
+      "section": "start",
+      "grades": [],
+      "color": "#54a0ff"
+    },
+    {
+      "id": "codeorg",
+      "name": "Code.org",
+      "url": "https://studio.code.org",
+      "section": "typing",
+      "grades": [],
+      "color": "#d980fa"
+    },
+    {
+      "id": "scratch",
+      "name": "Scratch",
+      "url": "https://scratch.mit.edu",
+      "section": "typing",
+      "grades": [
+        "3",
+        "4"
+      ],
+      "color": "#ff9f43"
+    },
+    {
+      "id": "79678qf",
+      "name": "Scratch Jr.",
+      "url": "https://www.scratchjr.org/",
+      "section": "typing",
+      "grades": [
+        "K",
+        "1",
+        "2"
+      ],
+      "color": "#d980fa",
+      "emoji": ""
+    },
+    {
+      "id": "o3e12md",
+      "name": "Word",
+      "url": "https://word.cloud.microsoft/",
+      "section": "omruag2",
+      "grades": [],
+      "color": "#54a0ff",
+      "emoji": ""
+    },
+    {
+      "id": "r0yqlmn",
+      "name": "Excel",
+      "url": "https://excel.cloud.microsoft/?wdOrigin=OFFICEWEBAPPHOME.SHELL",
+      "section": "omruag2",
+      "grades": [],
+      "color": "#7bed9f",
+      "emoji": ""
+    },
+    {
+      "id": "cpskfzn",
+      "name": "PowerPoint",
+      "url": "https://powerpoint.cloud.microsoft/",
+      "section": "omruag2",
+      "grades": [],
+      "color": "#ff9f43",
+      "emoji": ""
+    },
+    {
+      "id": "o852gr8",
+      "name": "Canva",
+      "url": "https://www.canva.com/?msockid=02d4102f2baf65dc0fb407ed2a75648e",
+      "section": "omruag2",
+      "grades": [],
+      "color": "#ff7eb6",
+      "emoji": ""
+    },
+    {
+      "id": "pbskids",
+      "name": "PBS Kids Games",
+      "url": "https://pbskids.org/games",
+      "section": "freeday",
+      "grades": [],
+      "color": "#54a0ff"
+    },
+    {
+      "id": "wqkyfd2",
+      "name": "Education.com",
+      "url": "https://www.education.com/resources/games/",
+      "section": "freeday",
+      "grades": [],
+      "color": "#48dbfb",
+      "emoji": ""
+    },
+    {
+      "id": "natgeokids",
+      "name": "Nat Geo Kids",
+      "url": "https://kids.nationalgeographic.com",
+      "section": "freeday",
+      "grades": [],
+      "color": "#feca57"
+    },
+    {
+      "id": "5yhe9u2",
+      "name": "CBeebies",
+      "url": "https://www.cbeebies.com/play/",
+      "section": "freeday",
+      "grades": [],
+      "color": "#feca57",
+      "emoji": ""
+    },
+    {
+      "id": "musiclab",
+      "name": "Chrome Music Lab",
+      "url": "https://musiclab.chromeexperiments.com",
+      "section": "freeday",
+      "grades": [],
+      "color": "#ff6b9d"
+    }
   ]
 }
