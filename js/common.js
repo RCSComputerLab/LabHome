@@ -25,7 +25,9 @@
       tagline: 'Where learning is magic',
       openInNewTab: false,
       showClock: true,
-      sparkles: true
+      sparkles: true,
+      freeDayMinutes: [15, 30],
+      freeDayExtend: 15
     }, c.settings || {});
     c.freeDay = Object.assign({ unlocked: false, until: null, message: '' }, c.freeDay || {});
     c.currentGrade = c.currentGrade || 'all';

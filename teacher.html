@@ -44,6 +44,21 @@
         </div>
         <div class="freeday-state" id="freeday-state"></div>
         <div class="btn-row" id="freeday-actions"></div>
+        <button type="button" class="link-btn fd-times-link" id="fd-times-toggle">⚙️ Change the time buttons</button>
+        <div class="fd-times-editor" id="fd-times-editor" hidden>
+          <label class="field compact">
+            <span>Time buttons, in minutes <small class="muted">(separate with commas)</small></span>
+            <input type="text" id="fd-times" placeholder="15, 30" inputmode="numeric">
+          </label>
+          <label class="field compact">
+            <span>"Add more time" button, in minutes</span>
+            <input type="text" id="fd-extend" placeholder="15" inputmode="numeric">
+          </label>
+          <div class="btn-row">
+            <button type="button" class="btn small primary" id="fd-times-save">Save times</button>
+            <button type="button" class="btn small ghost" id="fd-times-cancel">Cancel</button>
+          </div>
+        </div>
         <label class="field compact">
           <span>Message when locked</span>
           <input type="text" id="freeday-message" maxlength="80" placeholder="Ask your teacher to unlock it!">

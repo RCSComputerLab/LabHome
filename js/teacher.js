@@ -121,11 +121,11 @@
       state = '<div class="fd-big">🔒 Locked</div><div class="muted">Students can see it but can\'t click in</div>';
     }
     $('#freeday-state').innerHTML = state;
+    const s = draft.settings;
     $('#freeday-actions').innerHTML = open
       ? '<button class="btn danger" data-fd="lock">🔒 Lock now</button>' +
-        (draft.freeDay.until ? '<button class="btn ghost" data-fd="add15">+15 min</button>' : '')
-      : '<button class="btn primary" data-fd="15">15 min</button>' +
-        '<button class="btn primary" data-fd="30">30 min</button>' +
+        (draft.freeDay.until ? `<button class="btn ghost" data-fd="add">+${formatMinutes(s.freeDayExtend)}</button>` : '')
+      : s.freeDayMinutes.map(m => `<button class="btn primary" data-fd="${m}">${formatMinutes(m)}</button>`).join('') +
         '<button class="btn primary" data-fd="day">Rest of today</button>' +
         '<button class="btn ghost" data-fd="forever">Until I lock it</button>';
     const msg = $('#freeday-message');
@@ -338,10 +338,11 @@
     if (action === 'lock') {
       return quickCommit('Locked Free Day', c => { c.freeDay.unlocked = false; c.freeDay.until = null; });
     }
-    if (action === 'add15') {
+    if (action === 'add') {
+      const extra = draft.settings.freeDayExtend;
       const base = Math.max(Date.now(), new Date(draft.freeDay.until).getTime());
-      const until = new Date(base + 15 * 60000).toISOString();
-      return quickCommit('Added 15 minutes to Free Day', c => { c.freeDay.unlocked = true; c.freeDay.until = until; });
+      const until = new Date(base + extra * 60000).toISOString();
+      return quickCommit('Added ' + formatMinutes(extra) + ' to Free Day', c => { c.freeDay.unlocked = true; c.freeDay.until = until; });
     }
     let until = null;
     if (action === 'day') {
@@ -353,6 +354,50 @@
     }
     Sky.celebrate();
     return quickCommit('Unlocked Free Day', c => { c.freeDay.unlocked = true; c.freeDay.until = until; });
+  }
+
+  function formatMinutes(m) {
+    if (m < 60) return m + ' min';
+    const h = Math.floor(m / 60);
+    const r = m % 60;
+    return h + ' hr' + (r ? ' ' + r + ' min' : '');
+  }
+
+  function openTimesEditor() {
+    $('#fd-times').value = draft.settings.freeDayMinutes.join(', ');
+    $('#fd-extend').value = draft.settings.freeDayExtend;
+    $('#fd-times-editor').hidden = false;
+    $('#fd-times-toggle').hidden = true;
+    $('#fd-times').focus();
+  }
+
+  function closeTimesEditor() {
+    $('#fd-times-editor').hidden = true;
+    $('#fd-times-toggle').hidden = false;
+  }
+
+  function saveTimes() {
+    const minutes = Array.from(new Set(
+      $('#fd-times').value.split(/[,\s]+/).map(Number).filter(n => Number.isInteger(n) && n > 0 && n <= 480)
+    )).sort((a, b) => a - b);
+    const extend = Number($('#fd-extend').value);
+    if (!minutes.length) {
+      toast('Type at least one time in minutes, like 10, 20, 45.', 'warn');
+      return;
+    }
+    if (minutes.length > 6) {
+      toast('Six time buttons at most, so they fit in the card.', 'warn');
+      return;
+    }
+    if (!Number.isInteger(extend) || extend < 1 || extend > 120) {
+      toast('The "add more time" amount should be between 1 and 120 minutes.', 'warn');
+      return;
+    }
+    closeTimesEditor();
+    quickCommit('Updated Free Day times', c => {
+      c.settings.freeDayMinutes = minutes;
+      c.settings.freeDayExtend = extend;
+    });
   }
 
   // ---------------------------------------------------------------- site list actions
@@ -866,6 +911,9 @@
       $('#set-' + key).addEventListener('change', e => { draft.settings[key] = e.target.checked; changed(); });
     });
 
+    $('#fd-times-toggle').addEventListener('click', openTimesEditor);
+    $('#fd-times-cancel').addEventListener('click', closeTimesEditor);
+    $('#fd-times-save').addEventListener('click', saveTimes);
     $('#gh-connect').addEventListener('click', connect);
     $('#gh-remember').addEventListener('change', togglePasswordFields);
     $('#gh-forget').addEventListener('click', forget);

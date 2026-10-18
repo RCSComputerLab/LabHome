@@ -130,6 +130,13 @@ small.muted { font-size: 0.85em; }
 #freeday-card.is-open::before { opacity: 1; }
 #freeday-card.is-open { background: linear-gradient(135deg, rgba(255, 107, 157, 0.22), rgba(162, 155, 254, 0.2), rgba(72, 219, 251, 0.2)); }
 .fd-big { font-size: 1.8rem; font-weight: 700; }
+.fd-times-link { padding: 0; margin: -4px 0 6px; font-size: 0.88rem; }
+.fd-times-editor {
+  padding: 12px 14px 2px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.22);
+}
 
 .segmented {
   display: flex;
