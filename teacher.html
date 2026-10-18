@@ -24,6 +24,7 @@
     </div>
     <div class="topbar-actions">
       <a class="btn ghost" href="./" target="_blank" rel="noopener">👀 Student view</a>
+      <button class="btn ghost" id="lock-btn" hidden>🔒 Lock</button>
       <button class="btn primary" id="publish-btn" disabled>✨ All changes published</button>
     </div>
   </header>
@@ -143,8 +144,19 @@
         <label class="toggle">
           <input type="checkbox" id="gh-remember" checked>
           <span class="switch"></span>
-          <span>Remember on this computer <small class="muted">(only on <b>your</b> teacher computer — never a student one)</small></span>
+          <span>Remember on this computer, locked with a password <small class="muted">(only on <b>your</b> teacher computer — never a student one)</small></span>
         </label>
+        <div class="form-grid two" id="password-fields">
+          <label class="field">
+            <span>Control center password</span>
+            <input type="password" id="gh-password" autocomplete="new-password" placeholder="At least 6 characters">
+          </label>
+          <label class="field">
+            <span>Type it again</span>
+            <input type="password" id="gh-password2" autocomplete="new-password">
+          </label>
+        </div>
+        <p class="muted small-note" id="password-note">You'll type this password to open the control center on this computer. Pick something students won't guess. To change it later, type a new one here and press Connect again.</p>
         <div class="btn-row">
           <button class="btn primary" id="gh-connect">🔗 Connect</button>
           <button class="btn ghost" id="gh-forget">Forget token</button>
@@ -231,6 +243,19 @@
       </div>
     </form>
   </dialog>
+
+  <!-- Password lock -->
+  <div id="lock-screen" class="lock-screen" hidden>
+    <form class="lock-card glass holo-edge" id="lock-form" autocomplete="off">
+      <div class="lock-emoji">🪄</div>
+      <h1 class="holo-text">Teacher Control Center</h1>
+      <p class="muted">Enter your password to continue.</p>
+      <input type="password" id="lock-password" class="lock-input" autocomplete="current-password" aria-label="Password">
+      <div id="lock-error" class="lock-error" hidden></div>
+      <button type="submit" class="btn primary lock-submit" id="lock-submit">🔓 Unlock</button>
+      <button type="button" class="link-btn" id="lock-forgot">Forgot password?</button>
+    </form>
+  </div>
 
   <div id="toasts" class="toasts" aria-live="polite"></div>
 

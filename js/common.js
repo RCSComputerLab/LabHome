@@ -21,7 +21,7 @@
   function normalize(c) {
     c = c || {};
     c.settings = Object.assign({
-      className: 'Our Magical Computer Lab',
+      className: 'Redeemer Computer Lab',
       tagline: 'Where learning is magic',
       openInNewTab: false,
       showClock: true,

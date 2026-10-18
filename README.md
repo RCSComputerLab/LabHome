@@ -31,7 +31,8 @@ So your changes save straight to GitHub and every lab computer updates by itself
    - GitHub → your picture → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**
    - **Repository access:** *Only select repositories*, then pick your `lab` repo
    - **Permissions → Repository permissions → Contents:** *Read and write*
-   - Generate it, copy it, paste it into the control center, and click **Connect**.
+   - Generate it, copy it, and paste it into the control center.
+4. Choose a **control center password** (typed twice), then click **Connect**. The saved token is encrypted with this password, so the control center asks for it each time it opens on this computer. It also locks itself after 20 minutes without use, and you can click **🔒 Lock** anytime. Forgot it? Click *Forgot password?* on the lock screen, then reconnect with a new token.
 
 Only do this on your own teacher computer. Without the token, nobody (including a curious student) can change anything.
 

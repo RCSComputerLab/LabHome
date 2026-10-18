@@ -38,10 +38,51 @@
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
         big: Math.random() < 0.06
       }));
+      addHiddenMickey();
+    }
+
+    /** A little three-circle constellation tucked into the sky for sharp-eyed kids to find. */
+    function addHiddenMickey() {
+      const narrow = w < 700;
+      const cx = w * (narrow ? 0.8 : 0.86);
+      const cy = h * (narrow ? 0.82 : 0.5);
+      const R = Math.max(18, Math.min(30, Math.min(w, h) * 0.03));
+      const circles = [
+        { x: cx, y: cy, r: R },
+        { x: cx - R * 0.95, y: cy - R * 0.95, r: R * 0.62 },
+        { x: cx + R * 0.95, y: cy - R * 0.95, r: R * 0.62 }
+      ];
+
+      // Clear random stars out of the way so the shape reads cleanly.
+      stars = stars.filter(s => !circles.some(c => Math.hypot(s.x - c.x, s.y - c.y) < c.r + 4));
+
+      // Stars along the outline only: skip points that fall inside another circle.
+      const gap = 11;
+      circles.forEach(c => {
+        const n = Math.round((Math.PI * 2 * c.r) / gap);
+        for (let i = 0; i < n; i++) {
+          const a = (Math.PI * 2 * i) / n;
+          const x = c.x + Math.cos(a) * c.r;
+          const y = c.y + Math.sin(a) * c.r;
+          if (circles.some(o => o !== c && Math.hypot(x - o.x, y - o.y) < o.r - 1)) continue;
+          stars.push({
+            x, y,
+            r: 0.7 + Math.random() * 0.4,
+            speed: 0.0008 + Math.random() * 0.0012,
+            phase: Math.random() * Math.PI * 2,
+            min: 0.25,
+            max: 0.75,
+            color: COLORS[Math.floor(Math.random() * COLORS.length)],
+            big: false
+          });
+        }
+      });
     }
 
     function drawStar(s, t) {
-      const a = reduceMotion ? 0.8 : 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+      const min = s.min || 0.35;
+      const max = s.max || 1;
+      const a = reduceMotion ? max * 0.8 : min + (max - min) * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
       ctx.globalAlpha = a;
       ctx.fillStyle = s.color;
       if (s.big) {

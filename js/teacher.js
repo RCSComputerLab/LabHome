@@ -16,8 +16,10 @@
   // ---------------------------------------------------------------- startup
 
   async function init() {
-    fillConnectForm();
     wireStatic();
+    wireLock();
+    if (creds.enc) await waitForUnlock();
+    fillConnectForm();
     if (creds.token && creds.owner && creds.repo) {
       gh = GitHub.client(creds);
       try {
@@ -78,9 +80,12 @@
   function renderConnection() {
     const pill = $('#conn-pill');
     const banner = $('#setup-banner');
+    $('#lock-btn').hidden = !creds.enc;
     if (gh) {
       pill.innerHTML = '<span class="dot ok"></span> Connected to ' + escapeHtml(creds.owner + '/' + creds.repo);
-      banner.hidden = true;
+      banner.hidden = !creds.legacyToken;
+      banner.innerHTML = '🔒 <b>Add a password.</b> This computer remembers your GitHub connection without one, so anyone who opens this page here could make changes. ' +
+        '<button class="btn small primary" data-goto="connect" data-focus="gh-password">Add a password</button>';
     } else {
       pill.innerHTML = '<span class="dot"></span> Not connected to GitHub';
       banner.hidden = false;
@@ -241,6 +246,13 @@
     $('#gh-branch').value = creds.branch || 'main';
     $('#gh-token').value = creds.token || '';
     $('#gh-remember').checked = !sessionStorage.getItem('lab-github');
+    togglePasswordFields();
+  }
+
+  function togglePasswordFields() {
+    const remember = $('#gh-remember').checked;
+    $('#password-fields').hidden = !remember;
+    $('#password-note').hidden = !remember;
   }
 
   // ---------------------------------------------------------------- publishing
@@ -614,15 +626,32 @@
       toast('Fill in the username, repository and token first.', 'warn');
       return;
     }
+    const remember = $('#gh-remember').checked;
+    const password = $('#gh-password').value;
+    if (remember) {
+      if (password.length < 6) {
+        toast('Pick a password with at least 6 characters.', 'warn');
+        $('#gh-password').focus();
+        return;
+      }
+      if (password !== $('#gh-password2').value) {
+        toast('The two passwords don\'t match. Try typing them again.', 'warn');
+        $('#gh-password2').focus();
+        return;
+      }
+    }
     const btn = $('#gh-connect');
     btn.disabled = true;
     btn.textContent = '⏳ Connecting…';
     try {
       const client = GitHub.client(next);
       await client.checkRepo();
-      creds = next;
       gh = client;
-      GitHub.saveCreds(creds, $('#gh-remember').checked);
+      await GitHub.saveCreds(next, remember, password);
+      creds = Object.assign(GitHub.loadCreds(), { token: next.token });
+      $('#gh-password').value = '';
+      $('#gh-password2').value = '';
+      lastActivity = Date.now();
       let fileExists = true;
       try {
         if (!isDirty()) await loadFromGitHub();
@@ -631,7 +660,8 @@
         fileExists = false;
       }
       renderAll();
-      toast(fileExists ? '🔗 Connected! Changes will now go live.' : '🔗 Connected! Press Publish to save your first version.');
+      toast((fileExists ? '🔗 Connected! Changes will now go live.' : '🔗 Connected! Press Publish to save your first version.') +
+        (remember ? ' Your password now protects this computer.' : ''), 'info', 6000);
       if (!fileExists) baseline = '';
       updatePublishButton();
     } catch (err) {
@@ -645,11 +675,114 @@
   function forget() {
     GitHub.forgetToken();
     creds.token = '';
+    delete creds.enc;
+    creds.legacyToken = false;
+    creds.remembered = false;
     $('#gh-token').value = '';
     gh = null;
     renderConnection();
     updatePublishButton();
     toast('Token forgotten on this computer.');
+  }
+
+  // ---------------------------------------------------------------- password lock
+
+  const AUTO_LOCK_MS = 20 * 60 * 1000;
+  let unlockResolve = null;
+  let failedTries = 0;
+  let lastActivity = Date.now();
+
+  function showLock() {
+    const dialog = $('#site-dialog');
+    if (dialog.open) dialog.close();
+    $('#lock-screen').hidden = false;
+    $('#lock-error').hidden = true;
+    $('#lock-password').value = '';
+    setTimeout(() => $('#lock-password').focus(), 50);
+  }
+
+  function waitForUnlock() {
+    showLock();
+    return new Promise(resolve => { unlockResolve = resolve; });
+  }
+
+  function finishUnlock() {
+    $('#lock-screen').hidden = true;
+    lastActivity = Date.now();
+    if (unlockResolve) {
+      const resolve = unlockResolve;
+      unlockResolve = null;
+      resolve();
+    } else {
+      gh = creds.token && creds.owner && creds.repo ? GitHub.client(creds) : null;
+      fillConnectForm();
+      renderConnection();
+      updatePublishButton();
+    }
+  }
+
+  async function tryUnlock(e) {
+    e.preventDefault();
+    const password = $('#lock-password').value;
+    if (!password) return;
+    const btn = $('#lock-submit');
+    const err = $('#lock-error');
+    btn.disabled = true;
+    btn.textContent = '⏳ Checking…';
+    const token = await GitHub.unlockToken(creds.enc, password);
+    btn.disabled = false;
+    btn.textContent = '🔓 Unlock';
+
+    if (!token) {
+      failedTries++;
+      const card = $('#lock-form');
+      card.classList.remove('shake');
+      void card.offsetWidth;
+      card.classList.add('shake');
+      err.hidden = false;
+      $('#lock-password').select();
+      if (failedTries >= 5) {
+        err.textContent = 'Too many tries. Wait 30 seconds.';
+        btn.disabled = true;
+        setTimeout(() => { btn.disabled = false; failedTries = 0; err.hidden = true; }, 30000);
+      } else {
+        err.textContent = 'That\'s not it. Try again.';
+      }
+      return;
+    }
+    failedTries = 0;
+    creds.token = token;
+    finishUnlock();
+  }
+
+  function lockNow() {
+    if (!creds.enc) return;
+    creds.token = '';
+    gh = null;
+    $('#gh-token').value = '';
+    showLock();
+  }
+
+  function forgotPassword() {
+    if (!confirm('This removes the saved GitHub connection from this computer.\n\n' +
+      'To reconnect, make a new access token on GitHub and choose a new password. Continue?')) return;
+    GitHub.forgetToken();
+    creds.token = '';
+    delete creds.enc;
+    creds.remembered = false;
+    finishUnlock();
+    showTab('connect');
+  }
+
+  function wireLock() {
+    $('#lock-form').addEventListener('submit', tryUnlock);
+    $('#lock-forgot').addEventListener('click', forgotPassword);
+    $('#lock-btn').addEventListener('click', lockNow);
+    ['pointerdown', 'keydown', 'wheel'].forEach(type =>
+      window.addEventListener(type, () => { lastActivity = Date.now(); }, { passive: true }));
+    setInterval(() => {
+      if (creds.enc && creds.token && Date.now() - lastActivity > AUTO_LOCK_MS) lockNow();
+    }, 30000);
   }
 
   // ---------------------------------------------------------------- events
@@ -659,7 +792,14 @@
 
     document.addEventListener('click', e => {
       const goto = e.target.closest('[data-goto]');
-      if (goto) showTab(goto.dataset.goto);
+      if (goto) {
+        showTab(goto.dataset.goto);
+        if (goto.dataset.focus) {
+          const field = document.getElementById(goto.dataset.focus);
+          field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => field.focus(), 300);
+        }
+      }
 
       const fd = e.target.closest('[data-fd]');
       if (fd) freeDay(fd.dataset.fd);
@@ -727,6 +867,7 @@
     });
 
     $('#gh-connect').addEventListener('click', connect);
+    $('#gh-remember').addEventListener('change', togglePasswordFields);
     $('#gh-forget').addEventListener('click', forget);
     $('#export-btn').addEventListener('click', downloadJson);
     $('#import-file').addEventListener('change', async e => {

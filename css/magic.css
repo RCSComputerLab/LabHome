@@ -9,9 +9,9 @@
 }
 
 :root {
-  --night-1: #0a0a2e;
-  --night-2: #1a1050;
-  --night-3: #2a0f5c;
+  --night-1: #03030d;
+  --night-2: #0a0824;
+  --night-3: #140a33;
   --ink: #ffffff;
   --ink-soft: rgba(255, 255, 255, 0.78);
   --ink-faint: rgba(255, 255, 255, 0.55);
@@ -28,7 +28,8 @@
   --radius-md: 20px;
   --radius-sm: 14px;
 
-  --font: 'Fredoka', 'Nunito', 'Segoe UI Rounded', 'Segoe UI', system-ui, sans-serif;
+  --font: 'Quicksand', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  --font-title: 'Fredoka', 'Quicksand', system-ui, sans-serif;
   --font-tech: 'Orbitron', 'Fredoka', system-ui, sans-serif;
 
   color-scheme: dark;
@@ -43,8 +44,8 @@ body {
   font-family: var(--font);
   color: var(--ink);
   background:
-    radial-gradient(1200px 700px at 15% -10%, #3b1a8a 0%, transparent 60%),
-    radial-gradient(900px 600px at 100% 10%, #0e3a7a 0%, transparent 60%),
+    radial-gradient(1200px 700px at 15% -10%, #1c0d4a 0%, transparent 60%),
+    radial-gradient(900px 600px at 100% 10%, #071d47 0%, transparent 60%),
     linear-gradient(180deg, var(--night-1) 0%, var(--night-2) 55%, var(--night-3) 100%);
   background-attachment: fixed;
   overflow-x: hidden;
@@ -67,14 +68,14 @@ body {
   height: 55vmax;
   border-radius: 50%;
   filter: blur(90px);
-  opacity: 0.38;
+  opacity: 0.3;
   mix-blend-mode: screen;
   animation: drift 26s ease-in-out infinite alternate;
 }
-.aurora span:nth-child(1) { background: #ff4fa3; top: -20vmax; left: -10vmax; }
-.aurora span:nth-child(2) { background: #3fb8ff; top: -15vmax; right: -15vmax; animation-delay: -8s; animation-duration: 32s; }
-.aurora span:nth-child(3) { background: #8b5cff; bottom: -25vmax; left: 20vw; animation-delay: -14s; animation-duration: 38s; }
-.aurora span:nth-child(4) { background: #2ef2c0; bottom: -30vmax; right: -10vmax; opacity: 0.22; animation-delay: -4s; }
+.aurora span:nth-child(1) { background: #3a1c8f; top: -20vmax; left: -10vmax; }
+.aurora span:nth-child(2) { background: #0f3f99; top: -15vmax; right: -15vmax; animation-delay: -8s; animation-duration: 32s; }
+.aurora span:nth-child(3) { background: #2c1373; bottom: -25vmax; left: 20vw; animation-delay: -14s; animation-duration: 38s; }
+.aurora span:nth-child(4) { background: #0b4a6b; bottom: -30vmax; right: -10vmax; opacity: 0.2; animation-delay: -4s; }
 
 @keyframes drift {
   0%   { transform: translate(0, 0) scale(1); }
@@ -93,7 +94,7 @@ body {
   position: absolute;
   left: 0; right: 0; bottom: 0;
   height: 32vh;
-  background: linear-gradient(0deg, rgba(255, 120, 200, 0.18), transparent);
+  background: linear-gradient(0deg, rgba(70, 60, 180, 0.16), transparent);
 }
 
 /* ---------- Glass ---------- */
