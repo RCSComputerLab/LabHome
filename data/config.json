@@ -13,8 +13,8 @@
     "freeDayExtend": 15
   },
   "freeDay": {
-    "unlocked": false,
-    "until": null,
+    "unlocked": true,
+    "until": "2026-10-26T20:00:40.024Z",
     "message": "Unlocked when you earn a FREE DAY"
   },
   "currentGrade": "all",
