@@ -13,7 +13,7 @@
     "freeDayExtend": 15
   },
   "freeDay": {
-    "unlocked": false,
+    "unlocked": true,
     "until": null,
     "message": "Unlocked when you earn a FREE DAY"
   },
