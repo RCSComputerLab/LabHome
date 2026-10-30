@@ -132,12 +132,12 @@
       "color": "#54a0ff"
     },
     {
-      "id": "wqkyfd2",
-      "name": "Education.com",
-      "url": "https://www.education.com/resources/games/",
+      "id": "07a0vus",
+      "name": "Coloringbunny",
+      "url": "https://coloringbunny.com/https://coloringbunny.com/",
       "section": "freeday",
       "grades": [],
-      "color": "#48dbfb",
+      "color": "#7bed9f",
       "emoji": ""
     },
     {
@@ -164,6 +164,16 @@
       "section": "freeday",
       "grades": [],
       "color": "#ff6b9d"
+    },
+    {
+      "id": "wqkyfd2",
+      "name": "Education.com",
+      "url": "https://www.education.com/resources/games/",
+      "section": "freeday",
+      "grades": [],
+      "color": "#48dbfb",
+      "emoji": "",
+      "hidden": true
     }
   ]
 }
