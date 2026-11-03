@@ -10,7 +10,8 @@
       15,
       30
     ],
-    "freeDayExtend": 15
+    "freeDayExtend": 15,
+    "holidayTitle": "Holiday Fun"
   },
   "freeDay": {
     "unlocked": true,
@@ -43,6 +44,13 @@
       "name": "Free Day",
       "emoji": "🎉",
       "color": "#d980fa"
+    },
+    {
+      "id": "jpt620w",
+      "name": "Thanksgiving",
+      "emoji": "🎁",
+      "color": "#feca57",
+      "holiday": true
     }
   ],
   "sites": [
