@@ -46,6 +46,25 @@
 .pill-btn:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }
 .pill-btn.confirm { background: #ff6b9d; border-color: #ffb3cd; }
 
+/* ---------- Locked by the teacher (see gate.js) ---------- */
+
+.gate-pending main { visibility: hidden; }
+
+.gate-closed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 620px;
+  margin: 12vh auto 0;
+  padding: 40px 24px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+}
+.gate-icon { font-size: 4.2rem; filter: drop-shadow(0 0 24px rgba(255, 220, 140, 0.6)); }
+.gate-title { font-family: var(--font-title); font-size: 2.2rem; font-weight: 700; }
+.gate-sub { font-size: 1.25rem; color: var(--ink-soft); margin-bottom: 8px; }
+
 @media (max-width: 700px) {
   .activity-top h1 { font-size: 1.4rem; }
   .pill-btn { padding: 10px 14px; font-size: 1rem; }
