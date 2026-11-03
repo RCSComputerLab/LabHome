@@ -79,8 +79,18 @@
     paletteTitle.textContent = mode === 'number' ? 'Pick a color, then fill its squares' : 'Pick a color';
     picturesEl.innerHTML = PICTURES[size].map((p, i) => `
       <button type="button" class="picture-btn" data-picture="${i}" aria-pressed="${i === pictureIdx}">
-        <span class="pic-emoji">${p.emoji}</span>${p.name}
+        ${thumbnail(p.rows)}${p.name}
       </button>`).join('');
+  }
+
+  /** A tiny finished version of the picture, so kids see exactly what they'll make. */
+  function thumbnail(rows) {
+    const n = rows.length;
+    const rects = [];
+    rows.forEach((row, y) => row.split('').forEach((ch, x) => {
+      if (ch !== '.') rects.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="${COLORS[ch].hex}"/>`);
+    }));
+    return `<svg class="pic-thumb" viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges" aria-hidden="true">${rects.join('')}</svg>`;
   }
 
   function renderNumberPalette() {

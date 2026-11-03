@@ -115,7 +115,7 @@
   background: rgba(255, 255, 255, 0.08);
   border: 2px solid transparent;
 }
-.picture-btn .pic-emoji { font-size: 2.2rem; line-height: 1; }
+.picture-btn .pic-thumb { width: 44px; height: 44px; }
 .picture-btn:hover { background: rgba(255, 255, 255, 0.16); }
 .picture-btn[aria-pressed="true"] { border-color: #feca57; background: rgba(254, 202, 87, 0.2); }
 .picture-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
