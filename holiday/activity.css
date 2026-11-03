@@ -1,0 +1,52 @@
+/* ==========================================================
+   Shared by every holiday activity page: layout, top bar, buttons
+   ========================================================== */
+
+.activity-page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 14px clamp(12px, 3vw, 32px) 20px;
+}
+
+.activity-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.activity-top h1 {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  text-align: center;
+}
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font: 700 1.15rem var(--font);
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--glass-edge);
+  backdrop-filter: blur(12px);
+  transition: transform 0.15s ease, background 0.2s ease;
+  white-space: nowrap;
+}
+.pill-btn:hover { background: rgba(255, 255, 255, 0.22); transform: translateY(-2px); }
+.pill-btn:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }
+.pill-btn.confirm { background: #ff6b9d; border-color: #ffb3cd; }
+
+@media (max-width: 700px) {
+  .activity-top h1 { font-size: 1.4rem; }
+  .pill-btn { padding: 10px 14px; font-size: 1rem; }
+}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Build a Turkey</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦃</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/magic.css">
+  <link rel="stylesheet" href="../activity.css">
+  <link rel="stylesheet" href="turkey.css">
+</head>
+<body>
+  <main class="activity-page">
+    <header class="activity-top">
+      <a class="pill-btn" href="../../holidays.html">⬅️ Back</a>
+      <h1><span aria-hidden="true">🦃</span> <span class="holo-text">Build a Turkey</span></h1>
+      <button class="pill-btn" id="start-over" type="button">🔄 Start over</button>
+    </header>
+
+    <div class="scene-wrap">
+      <div class="scene" id="scene" aria-label="Fall meadow. Drag turkey parts here."></div>
+    </div>
+
+    <div class="tools glass" id="tools">
+      <span class="tools-hint" id="tools-hint">👆 Tap a part on your turkey to change it</span>
+      <div class="tools-buttons" id="tools-buttons" hidden>
+        <button type="button" data-tool="smaller" title="Smaller">➖<span>Smaller</span></button>
+        <button type="button" data-tool="bigger" title="Bigger">➕<span>Bigger</span></button>
+        <button type="button" data-tool="left" title="Turn left">↺<span>Turn</span></button>
+        <button type="button" data-tool="right" title="Turn right">↻<span>Turn</span></button>
+        <button type="button" data-tool="flip" title="Flip">⇆<span>Flip</span></button>
+        <button type="button" data-tool="front" title="Bring to front">⬆️<span>Front</span></button>
+        <button type="button" data-tool="back" title="Send to back">⬇️<span>Back</span></button>
+        <button type="button" data-tool="remove" class="danger" title="Remove">🗑️<span>Remove</span></button>
+      </div>
+    </div>
+
+    <section class="tray glass" id="tray">
+      <div class="tray-tabs" id="tray-tabs" role="tablist"></div>
+      <div class="tray-items" id="tray-items"></div>
+    </section>
+  </main>
+
+  <script src="../../js/sky.js"></script>
+  <script src="turkey.js"></script>
+</body>
+</html>

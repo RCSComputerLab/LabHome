@@ -1,0 +1,136 @@
+/* ==========================================================
+   Build a Turkey
+   ========================================================== */
+
+/* Layout, top bar and .pill-btn come from ../activity.css. */
+
+/* ---------- Scene ---------- */
+
+.scene-wrap { display: flex; justify-content: center; }
+
+/* 3:2 like the meadow picture, sized so the tray still fits on screen. */
+.scene {
+  position: relative;
+  width: min(100%, calc((100vh - 450px) * 1.5));
+  min-width: min(100%, 480px);
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #6b4a2a url('meadow.jpg') center / cover no-repeat;
+  box-shadow: var(--glass-shadow), 0 0 0 2px var(--glass-edge);
+  touch-action: none;
+  user-select: none;
+}
+.scene.drop-ready { box-shadow: var(--glass-shadow), 0 0 0 4px #feca57, 0 0 30px rgba(254, 202, 87, 0.6); }
+
+.part {
+  position: absolute;
+  height: auto;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 4px 6px rgba(40, 20, 0, 0.35));
+  transform-origin: center;
+}
+.part.dragging { cursor: grabbing; filter: drop-shadow(0 12px 14px rgba(40, 20, 0, 0.45)); }
+.part.selected {
+  filter:
+    drop-shadow(0 0 3px #fff)
+    drop-shadow(0 0 3px #fff)
+    drop-shadow(0 0 10px #feca57);
+}
+.part.leaving { opacity: 0.4; }
+
+/* ---------- Tools ---------- */
+
+.tools {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 74px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+}
+.tools-hint { font-size: 1.2rem; font-weight: 600; color: var(--ink-soft); }
+.tools-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.tools-buttons button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 74px;
+  padding: 6px 10px;
+  border-radius: 16px;
+  font: 700 1.6rem var(--font);
+  line-height: 1.1;
+  color: var(--ink);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--glass-edge);
+  transition: transform 0.12s ease, background 0.2s ease;
+}
+.tools-buttons button span { font-size: 0.8rem; font-weight: 700; }
+.tools-buttons button:hover { background: rgba(255, 255, 255, 0.26); transform: translateY(-2px); }
+.tools-buttons button:active { transform: scale(0.94); }
+.tools-buttons button:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.tools-buttons button.danger { background: rgba(255, 107, 157, 0.3); }
+
+/* ---------- Tray ---------- */
+
+.tray { padding: 10px 14px 14px; border-radius: var(--radius-lg); }
+.tray.drop-remove { box-shadow: var(--glass-shadow), 0 0 0 4px #ff6b9d; }
+
+.tray-tabs { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.tray-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px 6px 8px;
+  border-radius: 999px;
+  font: 700 1.15rem var(--font);
+  color: var(--ink);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid transparent;
+}
+.tray-tab img { width: 40px; height: 40px; object-fit: contain; }
+.tray-tab:hover { background: rgba(255, 255, 255, 0.16); }
+.tray-tab[aria-selected="true"] { background: rgba(254, 202, 87, 0.28); border-color: #feca57; }
+.tray-tab:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+.tray-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 10px;
+}
+.tray-item {
+  display: grid;
+  place-items: center;
+  height: 96px;
+  padding: 6px;
+  border-radius: 18px;
+  cursor: grab;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  touch-action: none;
+  transition: transform 0.12s ease, background 0.2s ease;
+}
+.tray-item:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-3px) scale(1.04); }
+.tray-item:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+/* Smaller tiles when a tab has lots of choices, so the tray stays short. */
+.tray-items.many { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+.tray-items.many .tray-item { height: 76px; padding: 5px; }
+.tray-item img { max-width: 100%; max-height: 100%; pointer-events: none; -webkit-user-drag: none; }
+
+/* The copy that follows the pointer while dragging from the tray. */
+.ghost {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1.05);
+  filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.45));
+}
+
+@media (max-width: 700px) {
+  .tools-buttons button { min-width: 60px; font-size: 1.3rem; }
+}

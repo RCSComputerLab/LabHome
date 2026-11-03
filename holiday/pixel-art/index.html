@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pixel Art</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/magic.css">
+  <link rel="stylesheet" href="../activity.css">
+  <link rel="stylesheet" href="pixel.css">
+</head>
+<body>
+  <main class="activity-page">
+    <header class="activity-top">
+      <a class="pill-btn" href="../../holidays.html">⬅️ Back</a>
+      <h1><span aria-hidden="true">🎨</span> <span class="holo-text">Pixel Art</span></h1>
+      <button class="pill-btn" id="start-over" type="button">🔄 Start over</button>
+    </header>
+
+    <div class="options">
+      <div class="seg" id="mode-picker" role="tablist" aria-label="Activity">
+        <button type="button" data-mode="number" aria-selected="true">🔢 Color by Number</button>
+        <button type="button" data-mode="free" aria-selected="false">✏️ Free Draw</button>
+      </div>
+      <div class="seg small" id="size-picker" aria-label="Grid size">
+        <button type="button" data-size="small">Small</button>
+        <button type="button" data-size="medium">Medium</button>
+        <button type="button" data-size="large">Large</button>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <div class="board" id="board"></div>
+
+      <aside class="side glass">
+        <div id="picture-panel">
+          <h2>Pick a picture</h2>
+          <div class="pictures" id="pictures"></div>
+        </div>
+        <h2 id="palette-title">Pick a color</h2>
+        <div class="palette" id="palette"></div>
+        <p class="progress" id="progress"></p>
+        <p class="done-banner" id="done-banner" hidden></p>
+      </aside>
+    </div>
+  </main>
+
+  <script src="../../js/sky.js"></script>
+  <script src="pictures.js"></script>
+  <script src="pixel.js"></script>
+</body>
+</html>
