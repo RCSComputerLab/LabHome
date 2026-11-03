@@ -15,7 +15,7 @@
   },
   "freeDay": {
     "unlocked": true,
-    "until": "2026-11-03T19:28:19.016Z",
+    "until": null,
     "message": "Unlocked when you earn a FREE DAY"
   },
   "currentGrade": "all",
