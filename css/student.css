@@ -353,6 +353,20 @@
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
 }
 .holiday-card .holiday-icon svg { animation: icon-float 3.2s ease-in-out infinite; }
+
+/* Before the teacher opens it: visible, but not clickable. */
+.holiday-card.holiday-locked { cursor: default; filter: saturate(0.6); opacity: 0.85; }
+.holiday-card.holiday-locked:hover { transform: none; }
+.holiday-closed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 620px;
+  margin: 40px auto;
+  padding: 40px 24px;
+  text-align: center;
+}
 @keyframes icon-float {
   0%, 100% { transform: translateY(0) rotate(-3deg); }
   50% { transform: translateY(-5px) rotate(3deg); }

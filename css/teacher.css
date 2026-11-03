@@ -130,6 +130,10 @@ small.muted { font-size: 0.85em; }
 #freeday-card.is-open::before { opacity: 1; }
 #freeday-card.is-open { background: linear-gradient(135deg, rgba(255, 107, 157, 0.22), rgba(162, 155, 254, 0.2), rgba(72, 219, 251, 0.2)); }
 .fd-big { font-size: 1.8rem; font-weight: 700; }
+.quick-stack { display: grid; gap: 18px; align-content: start; }
+#holiday-card.is-open { background: linear-gradient(135deg, rgba(254, 202, 87, 0.22), rgba(255, 159, 67, 0.18)); }
+.holiday-gate { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.holiday-gate .fd-big { font-size: 1.4rem; }
 .fd-times-link { padding: 0; margin: -4px 0 6px; font-size: 0.88rem; }
 .fd-times-editor {
   padding: 12px 14px 2px;
@@ -358,6 +362,9 @@ button.chip { min-width: 46px; padding: 8px 12px; font-size: 1rem; cursor: point
 .pill-toggle.on { background: var(--holo-soft); color: #1a1050; border-color: transparent; }
 .pill-toggle.off { background: rgba(255, 94, 126, 0.18); border-color: rgba(255, 120, 140, 0.5); color: #ffb3c1; }
 .panel-head a { color: #b8e8ff; }
+.sub-head { margin: 30px 0 4px; font-size: 1.25rem; }
+.activity-img { width: 44px; height: 44px; object-fit: contain; }
+.activity-row .name { flex: 1; font-weight: 700; }
 .emoji-input { width: 58px; text-align: center; font-size: 1.3rem !important; }
 .name-input { flex: 1; min-width: 120px; }
 .color-input { width: 48px; height: 40px; padding: 3px !important; cursor: pointer; }
