@@ -344,6 +344,20 @@ button.chip { min-width: 46px; padding: 8px 12px; font-size: 1rem; cursor: point
   color: var(--ink);
   font: 500 1rem var(--font);
 }
+.pill-toggle {
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink-faint);
+  font: 600 0.88rem var(--font);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pill-toggle:hover { background: rgba(255, 255, 255, 0.14); color: var(--ink); }
+.pill-toggle.on { background: var(--holo-soft); color: #1a1050; border-color: transparent; }
+.pill-toggle.off { background: rgba(255, 94, 126, 0.18); border-color: rgba(255, 120, 140, 0.5); color: #ffb3c1; }
+.panel-head a { color: #b8e8ff; }
 .emoji-input { width: 58px; text-align: center; font-size: 1.3rem !important; }
 .name-input { flex: 1; min-width: 120px; }
 .color-input { width: 48px; height: 40px; padding: 3px !important; cursor: pointer; }

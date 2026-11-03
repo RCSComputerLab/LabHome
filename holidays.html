@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holiday Fun</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@500;600;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/magic.css">
+  <link rel="stylesheet" href="css/student.css">
+</head>
+<body data-page="holidays">
+  <main class="page">
+    <a class="back-home" href="./">🏠 Back to Home</a>
+
+    <header class="hero">
+      <div class="hero-text hero-with-icon">
+        <div class="holiday-icon hero-icon" id="hero-icon"></div>
+        <div>
+          <h1 id="class-name" class="holo-text">Holiday Fun</h1>
+          <p id="tagline" class="tagline"></p>
+        </div>
+      </div>
+      <div id="clock" class="clock glass" hidden>
+        <div class="clock-time" id="clock-time">--:--</div>
+        <div class="clock-date" id="clock-date"></div>
+      </div>
+    </header>
+
+    <div id="grade-banner" class="grade-banner" hidden></div>
+    <div id="sections"></div>
+
+    <div id="loading" class="loading">
+      <div class="loading-star">✦</div>
+      <p>Getting the magic ready…</p>
+    </div>
+  </main>
+
+  <script src="js/common.js"></script>
+  <script src="js/sky.js"></script>
+  <script>document.getElementById('hero-icon').innerHTML = Lab.holidayIcon('hero');</script>
+  <script src="js/student.js"></script>
+</body>
+</html>

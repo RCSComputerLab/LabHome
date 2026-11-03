@@ -107,8 +107,12 @@
     <!-- Sections -->
     <section class="tab-panel" id="tab-sections" hidden>
       <div class="panel-head">
-        <p class="muted">Sections are the groups on the student page. Free Day is special and can't be removed.</p>
-        <button class="btn primary" id="add-section-btn">➕ Add a section</button>
+        <p class="muted">Sections are the groups on the student page. Free Day is special and can't be removed.<br>
+          Turn on <b>🗓️ Holiday page</b> to move a section onto the <a href="holidays.html" target="_blank" rel="noopener">Holiday Fun page ↗</a>. Use <b>👁️ Showing / 🙈 Hidden</b> to put a holiday away when its season ends.</p>
+        <div class="btn-row">
+          <button class="btn ghost" id="add-holiday-btn">🗓️ Add a holiday</button>
+          <button class="btn primary" id="add-section-btn">➕ Add a section</button>
+        </div>
       </div>
       <div id="section-list" class="stack"></div>
     </section>
@@ -123,6 +127,10 @@
         <label class="field">
           <span>Tagline</span>
           <input type="text" id="set-tagline" maxlength="80">
+        </label>
+        <label class="field">
+          <span>Holiday page title</span>
+          <input type="text" id="set-holidayTitle" maxlength="40">
         </label>
         <label class="toggle">
           <input type="checkbox" id="set-showClock">

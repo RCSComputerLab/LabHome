@@ -1,7 +1,7 @@
 /* Shared helpers for the student page and the teacher control center. */
 (function () {
   const CONFIG_PATH = 'data/config.json';
-  const GRADES = ['K', '1', '2', '3', '4'];
+  const GRADES = ['K', '1', '2', '3', '4', '5', '6'];
   const FREE_DAY_ID = 'freeday';
 
   const PALETTE = [
@@ -27,7 +27,8 @@
       showClock: true,
       sparkles: true,
       freeDayMinutes: [15, 30],
-      freeDayExtend: 15
+      freeDayExtend: 15,
+      holidayTitle: 'Holiday Fun'
     }, c.settings || {});
     c.freeDay = Object.assign({ unlocked: false, until: null, message: '' }, c.freeDay || {});
     c.currentGrade = c.currentGrade || 'all';
@@ -50,6 +51,36 @@
     if (!c.freeDay.unlocked) return false;
     if (!c.freeDay.until) return true;
     return Date.now() < new Date(c.freeDay.until).getTime();
+  }
+
+  /** Holiday sections show on the Holiday page instead of the home page. */
+  function isHolidaySection(section) {
+    return !!section.holiday && section.id !== FREE_DAY_ID;
+  }
+
+  /** A calendar with a star: works for any holiday. `uid` keeps gradient ids unique on the page. */
+  function holidayIcon(uid) {
+    const g = 'hol-' + (uid || 'a');
+    return `
+<svg viewBox="0 0 64 64" aria-hidden="true">
+  <defs>
+    <linearGradient id="${g}-top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8fd0"/><stop offset="0.35" stop-color="#ffd36e"/>
+      <stop offset="0.7" stop-color="#7fe3ff"/><stop offset="1" stop-color="#b9a0ff"/>
+    </linearGradient>
+    <linearGradient id="${g}-star" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe680"/><stop offset="1" stop-color="#ffab3d"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="12" width="48" height="44" rx="10" fill="#ffffff"/>
+  <path d="M8 22a10 10 0 0 1 10-10h28a10 10 0 0 1 10 10v4H8z" fill="url(#${g}-top)"/>
+  <rect x="18.5" y="6" width="5" height="12" rx="2.5" fill="#4b2f9a"/>
+  <rect x="40.5" y="6" width="5" height="12" rx="2.5" fill="#4b2f9a"/>
+  <polygon points="32,30 34.8,37.1 42.5,37.6 36.6,42.5 38.5,49.9 32,45.8 25.5,49.9 27.4,42.5 21.5,37.6 29.2,37.1"
+    fill="url(#${g}-star)" stroke="#f59e2b" stroke-width="0.8" stroke-linejoin="round"/>
+  <path d="M48 31 Q48.6 34 51 34.5 Q48.6 35 48 38 Q47.4 35 45 34.5 Q47.4 34 48 31Z" fill="#ff8fd0"/>
+  <path d="M16 43 Q16.5 45.5 18.5 46 Q16.5 46.5 16 49 Q15.5 46.5 13.5 46 Q15.5 45.5 16 43Z" fill="#7fe3ff"/>
+</svg>`;
   }
 
   function siteMatchesGrade(site, grade) {
@@ -100,7 +131,7 @@
 
   window.Lab = {
     CONFIG_PATH, GRADES, FREE_DAY_ID, PALETTE,
-    loadConfig, normalize, isFreeDayOpen, siteMatchesGrade,
+    loadConfig, normalize, isFreeDayOpen, siteMatchesGrade, isHolidaySection, holidayIcon,
     hostOf, logoFor, colorFor, makeId, escapeHtml, safeUrl
   };
 })();

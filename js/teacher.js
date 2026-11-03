@@ -159,7 +159,7 @@
         <div class="group glass" style="--accent:${escapeHtml(sec.color || '#a29bfe')}">
           <div class="group-head">
             <span class="section-emoji">${escapeHtml(sec.emoji || '✨')}</span>
-            <h3>${escapeHtml(sec.name)}${sec.id === FREE_DAY_ID ? ' <span class="badge">locked until you open it</span>' : ''}</h3>
+            <h3>${escapeHtml(sec.name)}${sec.id === FREE_DAY_ID ? ' <span class="badge">locked until you open it</span>' : ''}${sec.holiday ? ' <span class="badge gold">🗓️ Holiday page</span>' : ''}${sec.hidden ? ' <span class="badge">hidden</span>' : ''}</h3>
             <span class="muted count">${sites.length} ${sites.length === 1 ? 'site' : 'sites'}</span>
             <button class="btn ghost small" data-add="${escapeHtml(sec.id)}">➕ Add here</button>
           </div>
@@ -223,6 +223,11 @@
         <input class="name-input" type="text" maxlength="40" value="${escapeHtml(sec.name)}" data-field="name" aria-label="Section name" ${sec.id === FREE_DAY_ID ? 'title="You can rename Free Day"' : ''}>
         <input class="color-input" type="color" value="${escapeHtml(sec.color || '#a29bfe')}" data-field="color" aria-label="Color">
         <span class="muted count">${draft.sites.filter(s => s.section === sec.id).length} sites</span>
+        ${sec.id === FREE_DAY_ID ? '' : `
+        <button class="pill-toggle ${sec.holiday ? 'on' : ''}" data-sec="holiday"
+          title="${sec.holiday ? 'Shown on the Holiday page. Click to move back to the home page.' : 'Click to show this section on the Holiday page instead of the home page.'}">🗓️ Holiday page</button>
+        <button class="pill-toggle ${sec.hidden ? 'off' : 'on'}" data-sec="hide"
+          title="${sec.hidden ? 'Hidden from students. Click to show.' : 'Showing to students. Click to hide.'}">${sec.hidden ? '🙈 Hidden' : '👁️ Showing'}</button>`}
         <button class="icon-btn" data-sec="up" ${i === 0 ? 'disabled' : ''} title="Move up">↑</button>
         <button class="icon-btn" data-sec="down" ${i === draft.sections.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
         ${sec.id === FREE_DAY_ID
@@ -235,6 +240,7 @@
     const s = draft.settings;
     $('#set-className').value = s.className;
     $('#set-tagline').value = s.tagline;
+    $('#set-holidayTitle').value = s.holidayTitle;
     $('#set-showClock').checked = !!s.showClock;
     $('#set-sparkles').checked = !!s.sparkles;
     $('#set-openInNewTab').checked = !!s.openInNewTab;
@@ -484,6 +490,12 @@
       const j = action === 'up' ? i - 1 : i + 1;
       if (j < 0 || j >= draft.sections.length) return;
       [draft.sections[i], draft.sections[j]] = [draft.sections[j], draft.sections[i]];
+    } else if (action === 'holiday') {
+      const sec = draft.sections[i];
+      if (sec.holiday) delete sec.holiday; else sec.holiday = true;
+    } else if (action === 'hide') {
+      const sec = draft.sections[i];
+      if (sec.hidden) delete sec.hidden; else sec.hidden = true;
     } else if (action === 'delete') {
       const sec = draft.sections[i];
       const sites = draft.sites.filter(s => s.section === id);
@@ -499,10 +511,13 @@
     changed();
   }
 
-  function addSection() {
+  function addSection(holiday) {
     const fd = draft.sections.findIndex(s => s.id === FREE_DAY_ID);
-    const sec = { id: makeId(), name: 'New section', emoji: '✨', color: PALETTE[Math.floor(Math.random() * PALETTE.length)] };
-    draft.sections.splice(fd === -1 ? draft.sections.length : fd, 0, sec);
+    const sec = holiday
+      ? { id: makeId(), name: 'New holiday', emoji: '🎁', color: '#feca57', holiday: true }
+      : { id: makeId(), name: 'New section', emoji: '✨', color: PALETTE[Math.floor(Math.random() * PALETTE.length)] };
+    if (holiday) draft.sections.push(sec);
+    else draft.sections.splice(fd === -1 ? draft.sections.length : fd, 0, sec);
     renderSectionList();
     renderSiteGroups();
     changed();
@@ -893,7 +908,8 @@
     $('#freeday-message').addEventListener('input', e => { draft.freeDay.message = e.target.value; changed(); });
 
     $('#add-site-btn').addEventListener('click', () => openEditor(null));
-    $('#add-section-btn').addEventListener('click', addSection);
+    $('#add-section-btn').addEventListener('click', () => addSection(false));
+    $('#add-holiday-btn').addEventListener('click', () => addSection(true));
 
     $('#section-list').addEventListener('input', e => {
       const field = e.target.dataset.field;
@@ -904,7 +920,7 @@
     });
     $('#section-list').addEventListener('change', () => { renderSiteGroups(); renderSpotlightSelect(); });
 
-    ['className', 'tagline'].forEach(key => {
+    ['className', 'tagline', 'holidayTitle'].forEach(key => {
       $('#set-' + key).addEventListener('input', e => { draft.settings[key] = e.target.value; changed(); });
     });
     ['showClock', 'sparkles', 'openInNewTab'].forEach(key => {

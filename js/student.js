@@ -1,8 +1,13 @@
-/* Student dashboard: renders the approved sites and keeps itself up to date. */
+/* Student pages (home and Holiday Fun): render the approved sites and keep up to date. */
 (function () {
-  const { escapeHtml, safeUrl, logoFor, colorFor, isFreeDayOpen, siteMatchesGrade, FREE_DAY_ID } = Lab;
+  const { escapeHtml, safeUrl, logoFor, colorFor, isFreeDayOpen, siteMatchesGrade, isHolidaySection,
+    holidayIcon, FREE_DAY_ID } = Lab;
+  const PAGE = document.body.dataset.page === 'holidays' ? 'holidays' : 'home';
   const REFRESH_MS = 45 * 1000;
-  const GRADE_NAMES = { K: 'Kindergarten', 1: '1st Grade', 2: '2nd Grade', 3: '3rd Grade', 4: '4th Grade' };
+  const GRADE_NAMES = {
+    K: 'Kindergarten', 1: '1st Grade', 2: '2nd Grade', 3: '3rd Grade',
+    4: '4th Grade', 5: '5th Grade', 6: '6th Grade'
+  };
 
   let config = null;
   let lastText = '';
@@ -31,9 +36,15 @@
   function render() {
     const s = config.settings;
     document.getElementById('loading').hidden = true;
-    document.getElementById('class-name').textContent = s.className;
-    document.getElementById('tagline').textContent = s.tagline || '';
-    document.title = s.className;
+    if (PAGE === 'holidays') {
+      document.getElementById('class-name').textContent = s.holidayTitle;
+      document.getElementById('tagline').textContent = s.className;
+      document.title = s.holidayTitle + ' · ' + s.className;
+    } else {
+      document.getElementById('class-name').textContent = s.className;
+      document.getElementById('tagline').textContent = s.tagline || '';
+      document.title = s.className;
+    }
     document.getElementById('clock').hidden = !s.showClock;
 
     if (s.sparkles && !trailOn) { Sky.enableTrail(); trailOn = true; }
@@ -57,10 +68,41 @@
       site.section === sectionId && !site.hidden && siteMatchesGrade(site, config.currentGrade));
   }
 
+  /** Sections that belong on this page and are switched on. */
+  function pageSections() {
+    return config.sections.filter(sec =>
+      !sec.hidden && (PAGE === 'holidays') === isHolidaySection(sec));
+  }
+
+  function activeHolidays() {
+    return config.sections.filter(sec => isHolidaySection(sec) && !sec.hidden && visibleSites(sec.id).length);
+  }
+
+  /** Big shortcut card on the home page that leads to the Holiday page. */
+  function holidayShortcut() {
+    const holidays = activeHolidays();
+    if (!holidays.length) return '';
+    const names = holidays.map(h => (h.emoji ? h.emoji + ' ' : '') + h.name).join('  ·  ');
+    return `
+      <section class="section">
+        <a class="card spotlight holiday-card holo-edge" href="holidays.html" style="--accent:${escapeHtml(holidays[0].color || '#feca57')}">
+          <div class="holiday-icon">${holidayIcon('home')}</div>
+          <div>
+            <div class="spotlight-label">🎊 Special activities</div>
+            <div class="spotlight-name">${escapeHtml(config.settings.holidayTitle)}</div>
+            <div class="spotlight-hint">${escapeHtml(names)}</div>
+          </div>
+          <div class="spotlight-go" aria-hidden="true">➜</div>
+        </a>
+      </section>`;
+  }
+
   function renderSpotlight() {
     const el = document.getElementById('spotlight');
+    if (!el) return;
     const site = config.sites.find(x => x.id === config.spotlight && !x.hidden);
-    if (!site || (site.section === FREE_DAY_ID && !isFreeDayOpen(config))) {
+    const sec = site && config.sections.find(x => x.id === site.section);
+    if (!site || (sec && sec.hidden) || (site.section === FREE_DAY_ID && !isFreeDayOpen(config))) {
       el.innerHTML = '';
       return;
     }
@@ -80,7 +122,7 @@
     const out = [];
     const freeOpen = isFreeDayOpen(config);
 
-    config.sections.forEach(section => {
+    pageSections().forEach(section => {
       const sites = visibleSites(section.id);
       if (!sites.length) return;
       const accent = section.color || '#a29bfe';
@@ -116,9 +158,13 @@
       }
     });
 
-    document.getElementById('sections').innerHTML = out.length
+    if (PAGE === 'home') out.push(holidayShortcut());
+    const empty = PAGE === 'holidays'
+      ? 'No holiday activities right now. Check back soon! 🌟'
+      : 'No websites yet. Your teacher will add some soon! 🌟';
+    document.getElementById('sections').innerHTML = out.join('').trim()
       ? out.join('')
-      : '<div class="glass empty-note">No websites yet. Your teacher will add some soon! 🌟</div>';
+      : '<div class="glass empty-note">' + empty + '</div>';
   }
 
   function freeDayStatus() {
