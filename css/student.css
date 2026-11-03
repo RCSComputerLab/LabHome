@@ -208,6 +208,9 @@
   background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 85%, white), color-mix(in srgb, var(--accent) 60%, #2a0f5c));
 }
 .logo-tile.no-bg .letter { color: #fff; filter: none; }
+.logo-tile.activity-tile {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 45%, #fff3d6), color-mix(in srgb, var(--accent) 70%, #5a2a0a));
+}
 
 .card-name {
   position: relative;
