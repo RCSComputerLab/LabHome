@@ -44,13 +44,6 @@
       "name": "Free Day",
       "emoji": "🎉",
       "color": "#d980fa"
-    },
-    {
-      "id": "rxd7cis",
-      "name": "Thanksgiving",
-      "emoji": "🎁",
-      "color": "#feca57",
-      "holiday": true
     }
   ],
   "sites": [
