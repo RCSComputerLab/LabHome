@@ -43,7 +43,24 @@
       s.grades = Array.isArray(s.grades) ? s.grades : [];
       if (!c.sections.some(sec => sec.id === s.section)) s.section = c.sections[0].id;
     });
+    c.hiddenActivities = Array.isArray(c.hiddenActivities) ? c.hiddenActivities : [];
     return c;
+  }
+
+  /** The teacher's own activities, built into the site. Each one lives in its own folder under holiday/. */
+  const ACTIVITIES = [
+    {
+      id: 'build-a-turkey', name: 'Build a Turkey', holiday: 'Thanksgiving', emoji: '🦃',
+      url: 'holiday/turkey/', image: 'holiday/turkey/parts/head-04.png', color: '#ff9f43'
+    },
+    {
+      id: 'pixel-art', name: 'Pixel Art', holiday: 'Thanksgiving', emoji: '🦃',
+      url: 'holiday/pixel-art/', image: 'holiday/pixel-art/icon.svg', color: '#feca57'
+    }
+  ];
+
+  function visibleActivities(c) {
+    return ACTIVITIES.filter(a => !c.hiddenActivities.includes(a.id));
   }
 
   /** Free Day counts as open only while the unlock hasn't expired. */
@@ -131,7 +148,8 @@
 
   window.Lab = {
     CONFIG_PATH, GRADES, FREE_DAY_ID, PALETTE,
-    loadConfig, normalize, isFreeDayOpen, siteMatchesGrade, isHolidaySection, holidayIcon,
+    ACTIVITIES, visibleActivities, holidayIcon, isHolidaySection,
+    loadConfig, normalize, isFreeDayOpen, siteMatchesGrade,
     hostOf, logoFor, colorFor, makeId, escapeHtml, safeUrl
   };
 })();

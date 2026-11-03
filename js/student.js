@@ -1,7 +1,7 @@
 /* Student pages (home and Holiday Fun): render the approved sites and keep up to date. */
 (function () {
   const { escapeHtml, safeUrl, logoFor, colorFor, isFreeDayOpen, siteMatchesGrade, isHolidaySection,
-    holidayIcon, FREE_DAY_ID } = Lab;
+    holidayIcon, visibleActivities, FREE_DAY_ID } = Lab;
   const PAGE = document.body.dataset.page === 'holidays' ? 'holidays' : 'home';
   const REFRESH_MS = 45 * 1000;
   const GRADE_NAMES = {
@@ -74,8 +74,39 @@
       !sec.hidden && (PAGE === 'holidays') === isHolidaySection(sec));
   }
 
+  /** Everything on the Holiday page: the teacher's activities (by holiday), then holiday link sections. */
   function activeHolidays() {
-    return config.sections.filter(sec => isHolidaySection(sec) && !sec.hidden && visibleSites(sec.id).length);
+    const out = [];
+    visibleActivities(config).forEach(a => {
+      if (!out.some(h => h.name === a.holiday)) out.push({ name: a.holiday, emoji: a.emoji, color: a.color });
+    });
+    config.sections
+      .filter(sec => isHolidaySection(sec) && !sec.hidden && visibleSites(sec.id).length)
+      .forEach(sec => out.push(sec));
+    return out;
+  }
+
+  /** Activity cards, one section per holiday. */
+  function activitySections() {
+    const groups = [];
+    visibleActivities(config).forEach(a => {
+      let g = groups.find(x => x.holiday === a.holiday);
+      if (!g) groups.push(g = { holiday: a.holiday, emoji: a.emoji, color: a.color, items: [] });
+      g.items.push(a);
+    });
+    return groups.map(g => `
+      <section class="section" style="--accent:${escapeHtml(g.color)}">
+        <h2 class="section-title">
+          <span class="section-emoji">${escapeHtml(g.emoji)}</span>
+          <span>${escapeHtml(g.holiday)}</span>
+        </h2>
+        <div class="grid">${g.items.map(a => `
+          <a class="card holo-edge" href="${escapeHtml(a.url)}" style="--accent:${escapeHtml(a.color)}" title="${escapeHtml(a.name)}">
+            <div class="logo-tile activity-tile"><img src="${escapeHtml(a.image)}" alt=""></div>
+            <div class="card-name">${escapeHtml(a.name)}</div>
+          </a>`).join('')}
+        </div>
+      </section>`);
   }
 
   /** Big shortcut card on the home page that leads to the Holiday page. */
@@ -122,6 +153,7 @@
     const out = [];
     const freeOpen = isFreeDayOpen(config);
 
+    if (PAGE === 'holidays') out.push(...activitySections());
     pageSections().forEach(section => {
       const sites = visibleSites(section.id);
       if (!sites.length) return;

@@ -1,7 +1,7 @@
 /* Teacher control center: edit sites, sections and settings; publish to GitHub. */
 (function () {
   const { escapeHtml, safeUrl, logoFor, colorFor, isFreeDayOpen, hostOf, makeId, normalize,
-    GRADES, FREE_DAY_ID, PALETTE, CONFIG_PATH } = Lab;
+    GRADES, FREE_DAY_ID, PALETTE, CONFIG_PATH, ACTIVITIES } = Lab;
   const $ = sel => document.querySelector(sel);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
 
@@ -234,6 +234,34 @@
           ? '<span class="badge">special</span>'
           : '<button class="icon-btn danger" data-sec="delete" title="Remove section">🗑</button>'}
       </div>`).join('');
+    renderActivityList();
+  }
+
+  function renderActivityList() {
+    $('#activity-list').innerHTML = ACTIVITIES.map(a => {
+      const hidden = draft.hiddenActivities.includes(a.id);
+      return `
+      <div class="sec-row activity-row glass" data-id="${escapeHtml(a.id)}">
+        <img class="activity-img" src="${escapeHtml(a.image)}" alt="">
+        <span class="name">${escapeHtml(a.name)}</span>
+        <span class="muted">${escapeHtml(a.emoji + ' ' + a.holiday)}</span>
+        <a class="pill-toggle" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">Try it ↗</a>
+        <button class="pill-toggle ${hidden ? 'off' : 'on'}" data-activity="toggle"
+          title="${hidden ? 'Hidden from students. Click to show.' : 'Showing to students. Click to hide.'}">${hidden ? '🙈 Hidden' : '👁️ Showing'}</button>
+      </div>`;
+    }).join('');
+  }
+
+  async function toggleActivity(id) {
+    const a = ACTIVITIES.find(x => x.id === id);
+    const hide = !draft.hiddenActivities.includes(id);
+    const set = c => {
+      c.hiddenActivities = c.hiddenActivities.filter(x => x !== id);
+      if (hide) c.hiddenActivities.push(id);
+    };
+    const done = quickCommit((hide ? 'Hid ' : 'Showing ') + a.name, set);
+    renderActivityList();
+    await done;
   }
 
   function renderSettings() {
@@ -889,6 +917,11 @@
 
       const sec = e.target.closest('[data-sec]');
       if (sec) sectionAction(sec.closest('.sec-row').dataset.id, sec.dataset.sec);
+    });
+
+    $('#activity-list').addEventListener('click', e => {
+      const btn = e.target.closest('[data-activity="toggle"]');
+      if (btn) toggleActivity(btn.closest('.activity-row').dataset.id);
     });
 
     $('#site-groups').addEventListener('dblclick', e => {
