@@ -69,6 +69,7 @@
   function renderAll() {
     renderConnection();
     renderFreeDay();
+    renderHolidayGate();
     renderGradePicker();
     renderSpotlightSelect();
     renderSiteGroups();
@@ -130,6 +131,16 @@
         '<button class="btn ghost" data-fd="forever">Until I lock it</button>';
     const msg = $('#freeday-message');
     if (document.activeElement !== msg) msg.value = draft.freeDay.message || '';
+  }
+
+  function renderHolidayGate() {
+    const open = draft.holidayOpen;
+    $('#holiday-card').classList.toggle('is-open', open);
+    $('#holiday-gate').innerHTML = open
+      ? `<div><div class="fd-big">🎊 Open</div><div class="muted">Students can use the activities</div></div>
+         <button class="btn danger" data-holiday="lock">🔒 Lock</button>`
+      : `<div><div class="fd-big">🔒 Locked</div><div class="muted">Students see "Coming soon!"</div></div>
+         <button class="btn primary" data-holiday="open">🎊 Open</button>`;
   }
 
   function renderGradePicker() {
@@ -300,6 +311,7 @@
       baseline = JSON.stringify(b);
     }
     renderFreeDay();
+    renderHolidayGate();
     renderGradePicker();
     renderSpotlightSelect();
     renderSiteGroups();
@@ -891,6 +903,12 @@
 
       const fd = e.target.closest('[data-fd]');
       if (fd) freeDay(fd.dataset.fd);
+
+      const hol = e.target.closest('[data-holiday]');
+      if (hol) {
+        const open = hol.dataset.holiday === 'open';
+        quickCommit(open ? 'Opened the Holiday page' : 'Locked the Holiday page', c => { c.holidayOpen = open; });
+      }
 
       const grade = e.target.closest('[data-grade]');
       if (grade) {

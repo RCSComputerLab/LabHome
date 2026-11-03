@@ -114,9 +114,23 @@
     const holidays = activeHolidays();
     if (!holidays.length) return '';
     const names = holidays.map(h => (h.emoji ? h.emoji + ' ' : '') + h.name).join('  ·  ');
+    const accent = escapeHtml(holidays[0].color || '#feca57');
+    if (!config.holidayOpen) {
+      return `
+      <section class="section">
+        <div class="card spotlight holiday-card holiday-locked holo-edge" style="--accent:${accent}">
+          <div class="holiday-icon">${holidayIcon('home')}</div>
+          <div>
+            <div class="spotlight-label">🔒 Coming soon!</div>
+            <div class="spotlight-name">${escapeHtml(config.settings.holidayTitle)}</div>
+            <div class="spotlight-hint">${escapeHtml(names)}</div>
+          </div>
+        </div>
+      </section>`;
+    }
     return `
       <section class="section">
-        <a class="card spotlight holiday-card holo-edge" href="holidays.html" style="--accent:${escapeHtml(holidays[0].color || '#feca57')}">
+        <a class="card spotlight holiday-card holo-edge" href="holidays.html" style="--accent:${accent}">
           <div class="holiday-icon">${holidayIcon('home')}</div>
           <div>
             <div class="spotlight-label">🎊 Special activities</div>
@@ -152,6 +166,16 @@
   function renderSections() {
     const out = [];
     const freeOpen = isFreeDayOpen(config);
+
+    if (PAGE === 'holidays' && !config.holidayOpen) {
+      document.getElementById('sections').innerHTML = `
+        <div class="glass holiday-closed">
+          <div class="lock-icon">🔒</div>
+          <div class="lock-title">Coming soon!</div>
+          <div class="lock-sub">Your teacher will open the holiday activities soon.</div>
+        </div>`;
+      return;
+    }
 
     if (PAGE === 'holidays') out.push(...activitySections());
     pageSections().forEach(section => {

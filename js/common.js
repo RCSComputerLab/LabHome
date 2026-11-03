@@ -44,6 +44,7 @@
       if (!c.sections.some(sec => sec.id === s.section)) s.section = c.sections[0].id;
     });
     c.hiddenActivities = Array.isArray(c.hiddenActivities) ? c.hiddenActivities : [];
+    c.holidayOpen = c.holidayOpen === true;   // locked until the teacher opens it
     return c;
   }
 
