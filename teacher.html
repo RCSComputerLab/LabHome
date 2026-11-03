@@ -76,15 +76,28 @@
         <div class="segmented" id="grade-picker"></div>
       </div>
 
-      <div class="quick-card glass">
-        <div class="quick-head">
-          <span class="quick-emoji">⭐</span>
-          <div>
-            <h2>Today's Mission</h2>
-            <p class="muted">One big glowing card at the top</p>
+      <div class="quick-stack">
+        <div class="quick-card glass">
+          <div class="quick-head">
+            <span class="quick-emoji">⭐</span>
+            <div>
+              <h2>Today's Mission</h2>
+              <p class="muted">One big glowing card at the top</p>
+            </div>
           </div>
+          <select id="spotlight-select" class="select"></select>
         </div>
-        <select id="spotlight-select" class="select"></select>
+
+        <div class="quick-card glass" id="holiday-card">
+          <div class="quick-head">
+            <span class="quick-emoji">🎊</span>
+            <div>
+              <h2>Holiday page</h2>
+              <p class="muted">Changes go live right away</p>
+            </div>
+          </div>
+          <div class="holiday-gate" id="holiday-gate"></div>
+        </div>
       </div>
     </section>
 
@@ -115,6 +128,10 @@
         </div>
       </div>
       <div id="section-list" class="stack"></div>
+
+      <h3 class="sub-head">🎊 Holiday activities</h3>
+      <p class="muted">Your own activities on the Holiday Fun page. Switching one changes the lab computers right away.</p>
+      <div id="activity-list" class="stack"></div>
     </section>
 
     <!-- Settings -->
