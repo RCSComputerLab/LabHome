@@ -40,6 +40,12 @@
       "color": "#2ed8b6"
     },
     {
+      "id": "2rk76d8",
+      "name": "Shared",
+      "emoji": "✨",
+      "color": "#ff7eb6"
+    },
+    {
       "id": "freeday",
       "name": "Free Day",
       "emoji": "🎉",
@@ -191,6 +197,28 @@
       "color": "#48dbfb",
       "emoji": "",
       "hidden": true
+    },
+    {
+      "id": "3hvg24c",
+      "name": "Follow Along",
+      "url": "https://rentonchristian-my.sharepoint.com/:w:/g/personal/skippen_redeemerchristian_org/IQBwm2BDIaHoQ7XutZ_6i0PjAULfAH66jQE2eMdLoVmGRPg?e=rogNSo",
+      "section": "2rk76d8",
+      "grades": [
+        "6"
+      ],
+      "color": "#ff9f43",
+      "emoji": ""
+    },
+    {
+      "id": "n7l1ocp",
+      "name": "Task",
+      "url": "https://rentonchristian-my.sharepoint.com/:w:/g/personal/skippen_redeemerchristian_org/IQA1AIApWd35SZ8M4KnaUMN8Aew0nGD7PsGZKDzoDnk-QpQ?e=yry6HR",
+      "section": "2rk76d8",
+      "grades": [
+        "6"
+      ],
+      "color": "#ff9f43",
+      "emoji": ""
     }
   ],
   "hiddenActivities": [],
