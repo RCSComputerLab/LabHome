@@ -207,7 +207,8 @@
         "6"
       ],
       "color": "#ff9f43",
-      "emoji": ""
+      "emoji": "",
+      "hidden": true
     },
     {
       "id": "n7l1ocp",
@@ -218,7 +219,8 @@
         "6"
       ],
       "color": "#ff9f43",
-      "emoji": ""
+      "emoji": "",
+      "hidden": true
     }
   ],
   "hiddenActivities": [],
