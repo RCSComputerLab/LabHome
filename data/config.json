@@ -146,12 +146,41 @@
       "emoji": ""
     },
     {
+      "id": "g7sy2uz",
+      "name": "Pixilart",
+      "url": "https://www.pixilart.com/draw",
+      "section": "freeday",
+      "grades": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "color": "#ff6b9d",
+      "emoji": ""
+    },
+    {
       "id": "musiclab",
       "name": "Chrome Music Lab",
       "url": "https://musiclab.chromeexperiments.com",
       "section": "freeday",
       "grades": [],
       "color": "#ff6b9d"
+    },
+    {
+      "id": "fio8ec5",
+      "name": "Chess",
+      "url": "https://www.chess.com/",
+      "section": "freeday",
+      "grades": [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "color": "#7bed9f",
+      "emoji": ""
     },
     {
       "id": "wqkyfd2",
