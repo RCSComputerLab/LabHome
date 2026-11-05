@@ -189,16 +189,6 @@
       "color": "#ff6b9d"
     },
     {
-      "id": "wqkyfd2",
-      "name": "Education.com",
-      "url": "https://www.education.com/resources/games/",
-      "section": "freeday",
-      "grades": [],
-      "color": "#48dbfb",
-      "emoji": "",
-      "hidden": true
-    },
-    {
       "id": "3hvg24c",
       "name": "Follow Along",
       "url": "https://rentonchristian-my.sharepoint.com/:w:/g/personal/skippen_redeemerchristian_org/IQBwm2BDIaHoQ7XutZ_6i0PjAULfAH66jQE2eMdLoVmGRPg?e=rogNSo",
@@ -221,6 +211,19 @@
       "color": "#ff9f43",
       "emoji": "",
       "hidden": true
+    },
+    {
+      "id": "lvux07n",
+      "name": "Geometrydash",
+      "url": "https://www.geometrydash.com/",
+      "section": "freeday",
+      "grades": [
+        "4",
+        "5",
+        "6"
+      ],
+      "color": "#feca57",
+      "emoji": ""
     }
   ],
   "hiddenActivities": [],
