@@ -222,6 +222,20 @@
       ],
       "color": "#feca57",
       "emoji": ""
+    },
+    {
+      "id": "0v0i8sf",
+      "name": "Oregon Trail",
+      "url": "https://oregontrail.ws/games/the-oregon-trail",
+      "section": "freeday",
+      "grades": [
+        "4",
+        "5",
+        "6"
+      ],
+      "color": "#48dbfb",
+      "emoji": "",
+      "logo": "https://th.bing.com/th/id/R.9d00c36f4aab195a725d835d6610b8db?rik=lU4l4svMC%2f%2bPBg&riu=http%3a%2f%2fwww.missedprints.com%2fwp-content%2fuploads%2f2015%2f01%2fthe-oregon-trail-video-game.jpg&ehk=eKso1AHibaJmbPpmmLqFukXnPdpnwa3l9TAzAEKdGoY%3d&risl=&pid=ImgRaw&r=0"
     }
   ],
   "hiddenActivities": [],
