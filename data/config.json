@@ -14,8 +14,8 @@
     "holidayTitle": "Holiday Fun"
   },
   "freeDay": {
-    "unlocked": true,
-    "until": "2026-11-13T19:34:43.658Z",
+    "unlocked": false,
+    "until": null,
     "message": "Unlocked when you earn a FREE DAY"
   },
   "currentGrade": "1",
