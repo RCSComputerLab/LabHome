@@ -57,11 +57,17 @@
     {
       id: 'pixel-art', name: 'Pixel Art', holiday: 'Thanksgiving', emoji: '🦃',
       url: 'holiday/pixel-art/', image: 'holiday/pixel-art/icon.svg', color: '#feca57'
+    },
+    {
+      // grades: only shows when the control center is set to one of these grades (or All)
+      id: 'coding-maze', name: 'Turkey Code Maze', holiday: 'Thanksgiving', emoji: '🦃',
+      url: 'holiday/maze/', image: 'holiday/maze/turkey.png', color: '#2fb36d', grades: ['2', '3']
     }
   ];
 
   function visibleActivities(c) {
-    return ACTIVITIES.filter(a => !c.hiddenActivities.includes(a.id));
+    return ACTIVITIES.filter(a => !c.hiddenActivities.includes(a.id) &&
+      siteMatchesGrade({ grades: a.grades || [] }, c.currentGrade));
   }
 
   /** Free Day counts as open only while the unlock hasn't expired. */
