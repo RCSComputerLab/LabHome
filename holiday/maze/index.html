@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turkey Code Maze</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦃</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/magic.css">
+  <link rel="stylesheet" href="../activity.css">
+  <link rel="stylesheet" href="maze.css">
+</head>
+<body class="gate-pending">
+  <main class="activity-page">
+    <header class="activity-top">
+      <a class="pill-btn" href="../../holidays.html">⬅️ Back</a>
+      <h1><span aria-hidden="true">🦃</span> <span class="holo-text">Turkey Code Maze</span></h1>
+      <button class="pill-btn" id="start-over" type="button">🔄 Start over</button>
+    </header>
+
+    <nav class="levels" id="levels" aria-label="Levels"></nav>
+
+    <div class="maze-layout">
+      <section class="board-side glass">
+        <p class="hint" id="hint"></p>
+        <div class="board" id="board" aria-label="Maze"></div>
+        <div class="food-list" id="food-list" aria-label="Food to eat"></div>
+      </section>
+
+      <section class="code-side glass">
+        <h2>Blocks <span class="sub">drag or tap to add</span></h2>
+        <div class="tray" id="tray"></div>
+
+        <h2>My code <span class="sub">drag a block out to remove it</span></h2>
+        <div class="program" id="program">
+          <p class="program-hint" id="program-hint">Drag blocks here 👇</p>
+        </div>
+
+        <div class="run-row">
+          <button class="go-btn" id="go" type="button">▶️ Go!</button>
+          <button class="pill-btn" id="clear" type="button">🗑️ Clear</button>
+        </div>
+        <div class="message" id="message" hidden></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="../gate.js" data-activity="coding-maze"></script>
+  <script src="../../js/sky.js"></script>
+  <script src="levels.js"></script>
+  <script src="maze.js"></script>
+</body>
+</html>
