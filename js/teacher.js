@@ -134,6 +134,7 @@
   }
 
   function renderHolidayGate() {
+    if (!$('#holiday-card')) return;   // an older teacher.html without this card
     const open = draft.holidayOpen;
     $('#holiday-card').classList.toggle('is-open', open);
     $('#holiday-gate').innerHTML = open
@@ -249,13 +250,14 @@
   }
 
   function renderActivityList() {
+    if (!$('#activity-list')) return;   // an older teacher.html without this list
     $('#activity-list').innerHTML = ACTIVITIES.map(a => {
       const hidden = draft.hiddenActivities.includes(a.id);
       return `
       <div class="sec-row activity-row glass" data-id="${escapeHtml(a.id)}">
         <img class="activity-img" src="${escapeHtml(a.image)}" alt="">
         <span class="name">${escapeHtml(a.name)}</span>
-        <span class="muted">${escapeHtml(a.emoji + ' ' + a.holiday)}</span>
+        <span class="muted">${escapeHtml(a.emoji + ' ' + a.holiday + (a.grades ? ' · Grades ' + a.grades.join(' & ') : ''))}</span>
         <a class="pill-toggle" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">Try it ↗</a>
         <button class="pill-toggle ${hidden ? 'off' : 'on'}" data-activity="toggle"
           title="${hidden ? 'Hidden from students. Click to show.' : 'Showing to students. Click to hide.'}">${hidden ? '🙈 Hidden' : '👁️ Showing'}</button>
@@ -937,7 +939,7 @@
       if (sec) sectionAction(sec.closest('.sec-row').dataset.id, sec.dataset.sec);
     });
 
-    $('#activity-list').addEventListener('click', e => {
+    $('#activity-list')?.addEventListener('click', e => {
       const btn = e.target.closest('[data-activity="toggle"]');
       if (btn) toggleActivity(btn.closest('.activity-row').dataset.id);
     });
