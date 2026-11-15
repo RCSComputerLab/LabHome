@@ -1,0 +1,337 @@
+/* Student pages (home and Holiday Fun): render the approved sites and keep up to date. */
+(function () {
+  const { escapeHtml, safeUrl, logoFor, colorFor, isFreeDayOpen, siteMatchesGrade, isHolidaySection,
+    holidayIcon, visibleActivities, FREE_DAY_ID } = Lab;
+  const PAGE = document.body.dataset.page === 'holidays' ? 'holidays' : 'home';
+  const REFRESH_MS = 45 * 1000;
+  const GRADE_NAMES = {
+    K: 'Kindergarten', 1: '1st Grade', 2: '2nd Grade', 3: '3rd Grade',
+    4: '4th Grade', 5: '5th Grade', 6: '6th Grade'
+  };
+
+  let config = null;
+  let lastText = '';
+  let lastFreeDayOpen = null;
+  let trailOn = false;
+
+  Sky.buildSky();
+
+  async function refresh() {
+    try {
+      const { text, config: next } = await Lab.loadConfig();
+      if (text !== lastText) {
+        lastText = text;
+        config = next;
+        render();
+      }
+    } catch (err) {
+      console.warn(err);
+      if (!config) {
+        document.getElementById('loading').innerHTML =
+          '<div class="loading-star">✦</div><p>Hmm, the magic is taking a nap. Trying again…</p>';
+      }
+    }
+  }
+
+  function render() {
+    const s = config.settings;
+    document.getElementById('loading').hidden = true;
+    if (PAGE === 'holidays') {
+      document.getElementById('class-name').textContent = s.holidayTitle;
+      document.getElementById('tagline').textContent = s.className;
+      document.title = s.holidayTitle + ' · ' + s.className;
+    } else {
+      document.getElementById('class-name').textContent = s.className;
+      document.getElementById('tagline').textContent = s.tagline || '';
+      document.title = s.className;
+    }
+    document.getElementById('clock').hidden = !s.showClock;
+
+    if (s.sparkles && !trailOn) { Sky.enableTrail(); trailOn = true; }
+
+    const banner = document.getElementById('grade-banner');
+    const g = config.currentGrade;
+    banner.hidden = !g || g === 'all';
+    if (!banner.hidden) banner.textContent = '🎒 Welcome, ' + GRADE_NAMES[g] + '!';
+
+    renderSpotlight();
+    renderSections();
+    wireCards();
+
+    const open = isFreeDayOpen(config);
+    if (lastFreeDayOpen === false && open) Sky.celebrate();
+    lastFreeDayOpen = open;
+  }
+
+  function visibleSites(sectionId) {
+    return config.sites.filter(site =>
+      site.section === sectionId && !site.hidden && siteMatchesGrade(site, config.currentGrade));
+  }
+
+  /** Sections that belong on this page and are switched on. */
+  function pageSections() {
+    return config.sections.filter(sec =>
+      !sec.hidden && (PAGE === 'holidays') === isHolidaySection(sec));
+  }
+
+  /** Everything on the Holiday page: the teacher's activities (by holiday), then holiday link sections. */
+  function activeHolidays() {
+    const out = [];
+    visibleActivities(config).forEach(a => {
+      if (!out.some(h => h.name === a.holiday)) out.push({ name: a.holiday, emoji: a.emoji, color: a.color });
+    });
+    config.sections
+      .filter(sec => isHolidaySection(sec) && !sec.hidden && visibleSites(sec.id).length &&
+        !out.some(h => sameName(h.name, sec.name)))
+      .forEach(sec => out.push(sec));
+    return out;
+  }
+
+  /** A holiday link section with the same name as an activity holiday ("Thanksgiving") joins that section. */
+  function sameName(a, b) {
+    return (a || '').trim().toLowerCase() === (b || '').trim().toLowerCase();
+  }
+  function activityGroups() {
+    const groups = [];
+    visibleActivities(config).forEach(a => {
+      let g = groups.find(x => x.holiday === a.holiday);
+      if (!g) groups.push(g = { holiday: a.holiday, emoji: a.emoji, color: a.color, items: [], links: [] });
+      g.items.push(a);
+    });
+    groups.forEach(g => {
+      g.linkSection = pageSections().find(sec => sameName(sec.name, g.holiday));
+      if (g.linkSection) g.links = visibleSites(g.linkSection.id);
+    });
+    return groups;
+  }
+
+  /** Activity cards, one section per holiday, followed by the teacher's links for that holiday. */
+  function activitySections() {
+    return activityGroups().map(g => `
+      <section class="section" style="--accent:${escapeHtml(g.color)}">
+        <h2 class="section-title">
+          <span class="section-emoji">${escapeHtml(g.emoji)}</span>
+          <span>${escapeHtml(g.holiday)}</span>
+        </h2>
+        <div class="grid">${g.items.map(a => `
+          <a class="card holo-edge" href="${escapeHtml(a.url)}" style="--accent:${escapeHtml(a.color)}" title="${escapeHtml(a.name)}">
+            <div class="logo-tile activity-tile"><img src="${escapeHtml(a.image)}" alt=""></div>
+            <div class="card-name">${escapeHtml(a.name)}</div>
+          </a>`).join('')}${g.links.map((site, i) => card(site, i, true)).join('')}
+        </div>
+      </section>`);
+  }
+
+  /** Big shortcut card on the home page that leads to the Holiday page. */
+  function holidayShortcut() {
+    const holidays = activeHolidays();
+    if (!holidays.length) return '';
+    const names = holidays.map(h => (h.emoji ? h.emoji + ' ' : '') + h.name).join('  ·  ');
+    const accent = escapeHtml(holidays[0].color || '#feca57');
+    if (!config.holidayOpen) {
+      return `
+      <section class="section">
+        <div class="card spotlight holiday-card holiday-locked holo-edge" style="--accent:${accent}">
+          <div class="holiday-icon">${holidayIcon('home')}</div>
+          <div>
+            <div class="spotlight-label">🔒 Coming soon!</div>
+            <div class="spotlight-name">${escapeHtml(config.settings.holidayTitle)}</div>
+            <div class="spotlight-hint">${escapeHtml(names)}</div>
+          </div>
+        </div>
+      </section>`;
+    }
+    return `
+      <section class="section">
+        <a class="card spotlight holiday-card holo-edge" href="holidays.html" style="--accent:${accent}">
+          <div class="holiday-icon">${holidayIcon('home')}</div>
+          <div>
+            <div class="spotlight-label">🎊 Special activities</div>
+            <div class="spotlight-name">${escapeHtml(config.settings.holidayTitle)}</div>
+            <div class="spotlight-hint">${escapeHtml(names)}</div>
+          </div>
+          <div class="spotlight-go" aria-hidden="true">➜</div>
+        </a>
+      </section>`;
+  }
+
+  function renderSpotlight() {
+    const el = document.getElementById('spotlight');
+    if (!el) return;
+    const site = config.sites.find(x => x.id === config.spotlight && !x.hidden);
+    const sec = site && config.sections.find(x => x.id === site.section);
+    if (!site || (sec && sec.hidden) || (site.section === FREE_DAY_ID && !isFreeDayOpen(config))) {
+      el.innerHTML = '';
+      return;
+    }
+    el.innerHTML = `
+      <a class="card spotlight holo-edge" ${linkAttrs(site)} style="--accent:${colorFor(site)}">
+        ${logoTile(site)}
+        <div>
+          <div class="spotlight-label">⭐ Today's Mission</div>
+          <div class="spotlight-name">${escapeHtml(site.name)}</div>
+          <div class="spotlight-hint">Click here to start!</div>
+        </div>
+        <div class="spotlight-go" aria-hidden="true">➜</div>
+      </a>`;
+  }
+
+  function renderSections() {
+    const out = [];
+    const freeOpen = isFreeDayOpen(config);
+
+    if (PAGE === 'holidays' && !config.holidayOpen) {
+      document.getElementById('sections').innerHTML = `
+        <div class="glass holiday-closed">
+          <div class="lock-icon">🔒</div>
+          <div class="lock-title">Coming soon!</div>
+          <div class="lock-sub">Your teacher will open the holiday activities soon.</div>
+        </div>`;
+      return;
+    }
+
+    let merged = [];
+    if (PAGE === 'holidays') {
+      out.push(...activitySections());
+      merged = activityGroups().map(g => g.linkSection && g.linkSection.id).filter(Boolean);
+    }
+    pageSections().forEach(section => {
+      if (merged.includes(section.id)) return;   // already shown with its holiday's activities
+      const sites = visibleSites(section.id);
+      if (!sites.length) return;
+      const accent = section.color || '#a29bfe';
+      const title = `
+        <h2 class="section-title">
+          <span class="section-emoji">${escapeHtml(section.emoji || '✨')}</span>
+          <span>${escapeHtml(section.id === FREE_DAY_ID && freeOpen ? section.name + ' is OPEN!' : section.name)}</span>
+        </h2>`;
+
+      if (section.id !== FREE_DAY_ID) {
+        out.push(`<section class="section" style="--accent:${accent}">${title}
+          <div class="grid">${sites.map((site, i) => card(site, i, true)).join('')}</div></section>`);
+        return;
+      }
+
+      if (freeOpen) {
+        out.push(`<section class="section" style="--accent:${accent}">
+          <div class="freeday-wrap open glass holo-edge">${title}
+            <p class="freeday-status">${escapeHtml(freeDayStatus())}</p>
+            <div class="grid">${sites.map((site, i) => card(site, i, true)).join('')}</div>
+          </div></section>`);
+      } else {
+        const msg = config.freeDay.message || 'Ask your teacher to unlock it!';
+        out.push(`<section class="section" style="--accent:${accent}">${title}
+          <div class="freeday-wrap freeday-locked glass">
+            <div class="grid" aria-hidden="true">${sites.map((site, i) => card(site, i, false)).join('')}</div>
+            <div class="lock-panel">
+              <div class="lock-icon">🔒</div>
+              <div class="lock-title">Free Day is locked</div>
+              <div class="lock-sub">${escapeHtml(msg)}</div>
+            </div>
+          </div></section>`);
+      }
+    });
+
+    if (PAGE === 'home') out.push(holidayShortcut());
+    const empty = PAGE === 'holidays'
+      ? 'No holiday activities right now. Check back soon! 🌟'
+      : 'No websites yet. Your teacher will add some soon! 🌟';
+    document.getElementById('sections').innerHTML = out.join('').trim()
+      ? out.join('')
+      : '<div class="glass empty-note">' + empty + '</div>';
+  }
+
+  function freeDayStatus() {
+    if (!config.freeDay.until) return 'Pick a fun site and have a blast! 🎈';
+    const t = new Date(config.freeDay.until).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    return 'Open until ' + t + ' ⏰ Have a blast! 🎈';
+  }
+
+  function linkAttrs(site) {
+    const newTab = config.settings.openInNewTab;
+    return `href="${escapeHtml(safeUrl(site.url))}"` +
+      (newTab ? ' target="_blank" rel="noopener noreferrer"' : ' rel="noreferrer"');
+  }
+
+  function card(site, index, isLink) {
+    const tag = isLink ? 'a' : 'div';
+    const attrs = isLink ? linkAttrs(site) : '';
+    return `
+      <${tag} class="card holo-edge" ${attrs} style="--accent:${colorFor(site, index)}" title="${escapeHtml(site.name)}">
+        ${logoTile(site)}
+        <div class="card-name">${escapeHtml(site.name)}</div>
+      </${tag}>`;
+  }
+
+  function logoTile(site) {
+    const src = logoFor(site);
+    if (src) {
+      return `<div class="logo-tile"><img src="${escapeHtml(safeUrl(src))}" alt="" loading="lazy" referrerpolicy="no-referrer" data-fallback="${escapeHtml(site.emoji || '')}" data-letter="${escapeHtml((site.name || '?').trim().charAt(0).toUpperCase())}"></div>`;
+    }
+    return fallbackTile(site.emoji, (site.name || '?').trim().charAt(0).toUpperCase());
+  }
+
+  function fallbackTile(emoji, letter) {
+    return emoji
+      ? `<div class="logo-tile"><span class="emoji">${escapeHtml(emoji)}</span></div>`
+      : `<div class="logo-tile no-bg"><span class="letter">${escapeHtml(letter)}</span></div>`;
+  }
+
+  function wireCards() {
+    document.querySelectorAll('.logo-tile img').forEach(img => {
+      const useFallback = () => {
+        if (img.parentElement) img.parentElement.outerHTML = fallbackTile(img.dataset.fallback, img.dataset.letter);
+      };
+      if (img.complete && !img.naturalWidth && img.currentSrc) return useFallback();
+      img.addEventListener('error', useFallback, { once: true });
+      img.addEventListener('load', () => {
+        // Tiny favicons look blurry when stretched, so keep them closer to real size.
+        if (img.naturalWidth && img.naturalWidth < 48) img.style.width = img.style.height = '56px';
+      }, { once: true });
+    });
+
+    document.querySelectorAll('a.card').forEach(el => {
+      if (!Sky.reduceMotion) {
+        el.addEventListener('pointermove', e => {
+          const r = el.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width - 0.5;
+          const py = (e.clientY - r.top) / r.height - 0.5;
+          el.style.setProperty('--ry', (px * 10).toFixed(2) + 'deg');
+          el.style.setProperty('--rx', (-py * 10).toFixed(2) + 'deg');
+        });
+        el.addEventListener('pointerleave', () => {
+          el.style.setProperty('--rx', '0deg');
+          el.style.setProperty('--ry', '0deg');
+        });
+      }
+      el.addEventListener('click', e => {
+        const r = el.getBoundingClientRect();
+        Sky.burst(r.left + r.width / 2, r.top + r.height / 2, 18, 110);
+        const sameTab = !config.settings.openInNewTab && !e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0;
+        if (sameTab && !Sky.reduceMotion) {
+          e.preventDefault();
+          const href = el.href;
+          setTimeout(() => { location.href = href; }, 260);
+        }
+      });
+    });
+  }
+
+  function tickClock() {
+    const now = new Date();
+    document.getElementById('clock-time').textContent =
+      now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s?[AP]M$/i, '');
+    document.getElementById('clock-date').textContent =
+      now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+
+    // Re-draw when a timed Free Day runs out.
+    if (config && isFreeDayOpen(config) !== lastFreeDayOpen) render();
+  }
+
+  tickClock();
+  setInterval(tickClock, 5000);
+  refresh();
+  setInterval(refresh, REFRESH_MS);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+  window.addEventListener('pageshow', e => { if (e.persisted) refresh(); });
+})();
