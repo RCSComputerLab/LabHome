@@ -50,6 +50,13 @@
       "name": "Free Day",
       "emoji": "🎉",
       "color": "#d980fa"
+    },
+    {
+      "id": "8zlf3xj",
+      "name": "Thanksgiving",
+      "emoji": "🦃",
+      "color": "#ff9f43",
+      "holiday": true
     }
   ],
   "sites": [
@@ -238,6 +245,20 @@
       "color": "#48dbfb",
       "emoji": "",
       "logo": "https://th.bing.com/th/id/R.9d00c36f4aab195a725d835d6610b8db?rik=lU4l4svMC%2f%2bPBg&riu=http%3a%2f%2fwww.missedprints.com%2fwp-content%2fuploads%2f2015%2f01%2fthe-oregon-trail-video-game.jpg&ehk=eKso1AHibaJmbPpmmLqFukXnPdpnwa3l9TAzAEKdGoY%3d&risl=&pid=ImgRaw&r=0"
+    },
+    {
+      "id": "pyka7bx",
+      "name": "Scratch Thanksgiving",
+      "url": "https://scratch.mit.edu/projects/1433706846",
+      "section": "8zlf3xj",
+      "grades": [
+        "4",
+        "5",
+        "6"
+      ],
+      "color": "#feca57",
+      "emoji": "",
+      "logo": "logos/pyka7bx-1794786374222.png"
     }
   ],
   "hiddenActivities": [],
