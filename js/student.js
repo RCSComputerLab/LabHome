@@ -81,20 +81,33 @@
       if (!out.some(h => h.name === a.holiday)) out.push({ name: a.holiday, emoji: a.emoji, color: a.color });
     });
     config.sections
-      .filter(sec => isHolidaySection(sec) && !sec.hidden && visibleSites(sec.id).length)
+      .filter(sec => isHolidaySection(sec) && !sec.hidden && visibleSites(sec.id).length &&
+        !out.some(h => sameName(h.name, sec.name)))
       .forEach(sec => out.push(sec));
     return out;
   }
 
-  /** Activity cards, one section per holiday. */
-  function activitySections() {
+  /** A holiday link section with the same name as an activity holiday ("Thanksgiving") joins that section. */
+  function sameName(a, b) {
+    return (a || '').trim().toLowerCase() === (b || '').trim().toLowerCase();
+  }
+  function activityGroups() {
     const groups = [];
     visibleActivities(config).forEach(a => {
       let g = groups.find(x => x.holiday === a.holiday);
-      if (!g) groups.push(g = { holiday: a.holiday, emoji: a.emoji, color: a.color, items: [] });
+      if (!g) groups.push(g = { holiday: a.holiday, emoji: a.emoji, color: a.color, items: [], links: [] });
       g.items.push(a);
     });
-    return groups.map(g => `
+    groups.forEach(g => {
+      g.linkSection = pageSections().find(sec => sameName(sec.name, g.holiday));
+      if (g.linkSection) g.links = visibleSites(g.linkSection.id);
+    });
+    return groups;
+  }
+
+  /** Activity cards, one section per holiday, followed by the teacher's links for that holiday. */
+  function activitySections() {
+    return activityGroups().map(g => `
       <section class="section" style="--accent:${escapeHtml(g.color)}">
         <h2 class="section-title">
           <span class="section-emoji">${escapeHtml(g.emoji)}</span>
@@ -104,7 +117,7 @@
           <a class="card holo-edge" href="${escapeHtml(a.url)}" style="--accent:${escapeHtml(a.color)}" title="${escapeHtml(a.name)}">
             <div class="logo-tile activity-tile"><img src="${escapeHtml(a.image)}" alt=""></div>
             <div class="card-name">${escapeHtml(a.name)}</div>
-          </a>`).join('')}
+          </a>`).join('')}${g.links.map((site, i) => card(site, i, true)).join('')}
         </div>
       </section>`);
   }
@@ -177,8 +190,13 @@
       return;
     }
 
-    if (PAGE === 'holidays') out.push(...activitySections());
+    let merged = [];
+    if (PAGE === 'holidays') {
+      out.push(...activitySections());
+      merged = activityGroups().map(g => g.linkSection && g.linkSection.id).filter(Boolean);
+    }
     pageSections().forEach(section => {
+      if (merged.includes(section.id)) return;   // already shown with its holiday's activities
       const sites = visibleSites(section.id);
       if (!sites.length) return;
       const accent = section.color || '#a29bfe';

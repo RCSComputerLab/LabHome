@@ -262,7 +262,44 @@
         <button class="pill-toggle ${hidden ? 'off' : 'on'}" data-activity="toggle"
           title="${hidden ? 'Hidden from students. Click to show.' : 'Showing to students. Click to hide.'}">${hidden ? '🙈 Hidden' : '👁️ Showing'}</button>
       </div>`;
+    }).join('') + activityHolidays().map(h => {
+      const sec = holidayLinkSection(h.holiday);
+      const count = sec ? draft.sites.filter(s => s.section === sec.id).length : 0;
+      return `
+      <div class="holiday-link-row">
+        <button class="btn ghost" type="button" data-holiday-link="${escapeHtml(h.holiday)}">🔗 Add a web link to ${escapeHtml(h.holiday)}</button>
+        <span class="muted">${count
+          ? `${count} ${count === 1 ? 'link' : 'links'} so far. Edit them on the Websites tab under ${escapeHtml(h.emoji + ' ' + h.holiday)}.`
+          : 'Links show next to these activities on the Holiday page.'}</span>
+      </div>`;
     }).join('');
+  }
+
+  /** One entry per holiday that has built-in activities (Thanksgiving, …). */
+  function activityHolidays() {
+    const out = [];
+    ACTIVITIES.forEach(a => { if (!out.some(h => h.holiday === a.holiday)) out.push(a); });
+    return out;
+  }
+
+  /** The Holiday-page section whose links appear with that holiday's activities (matched by name). */
+  function holidayLinkSection(holiday) {
+    const key = holiday.trim().toLowerCase();
+    return draft.sections.find(s => s.holiday && (s.name || '').trim().toLowerCase() === key);
+  }
+
+  /** Open "Add a website" already pointed at the holiday's section, making the section first if needed. */
+  function addHolidayLink(holiday) {
+    let sec = holidayLinkSection(holiday);
+    if (!sec) {
+      const a = ACTIVITIES.find(x => x.holiday === holiday);
+      sec = { id: makeId(), name: holiday, emoji: a.emoji, color: a.color, holiday: true };
+      draft.sections.push(sec);
+      renderSectionList();
+      renderSiteGroups();
+      changed();
+    }
+    openEditor(null, sec.id);
   }
 
   async function toggleActivity(id) {
@@ -942,6 +979,8 @@
     $('#activity-list')?.addEventListener('click', e => {
       const btn = e.target.closest('[data-activity="toggle"]');
       if (btn) toggleActivity(btn.closest('.activity-row').dataset.id);
+      const link = e.target.closest('[data-holiday-link]');
+      if (link) addHolidayLink(link.dataset.holidayLink);
     });
 
     $('#site-groups').addEventListener('dblclick', e => {
