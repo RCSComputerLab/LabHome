@@ -77,7 +77,31 @@
 
 /* ---------- Tray ---------- */
 
-.tray { padding: 10px 14px 14px; border-radius: var(--radius-lg); }
+.tray { position: relative; padding: 10px 14px 14px; border-radius: var(--radius-lg); }
+
+/* Shown when a part is clicked instead of dragged. */
+.drag-hint {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 5;
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font: 700 1.2rem var(--font);
+  color: #5a2d0c;
+  background: #feca57;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.tray-item.nudge { animation: nudge 0.45s ease; }
+@keyframes nudge {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px) rotate(-4deg); }
+  75% { transform: translateX(6px) rotate(4deg); }
+}
 .tray.drop-remove { box-shadow: var(--glass-shadow), 0 0 0 4px #ff6b9d; }
 
 .tray-tabs { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }

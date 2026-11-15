@@ -62,7 +62,7 @@
     renderItems();
   });
 
-  // Drag a copy out of the tray. A tap without dragging drops it in the middle of the meadow.
+  // Drag a copy out of the tray onto the meadow. A click without dragging only shows a reminder.
   itemsEl.addEventListener('pointerdown', e => {
     const item = e.target.closest('.tray-item');
     if (!item || e.button > 0) return;
@@ -92,7 +92,7 @@
         ghost.remove();
         if (ev.type === 'pointerup' && overScene(ev)) addPart(item.dataset.kind, item.dataset.src, toScene(ev));
       } else if (ev.type === 'pointerup') {
-        addPart(item.dataset.kind, item.dataset.src, nearCenter());
+        dragReminder(item);
       }
     };
     window.addEventListener('pointermove', move);
@@ -100,12 +100,17 @@
     window.addEventListener('pointercancel', up);
   });
 
-  itemsEl.addEventListener('keydown', e => {
-    const item = e.target.closest('.tray-item');
-    if (!item || (e.key !== 'Enter' && e.key !== ' ')) return;
-    e.preventDefault();
-    addPart(item.dataset.kind, item.dataset.src, nearCenter());
-  });
+  // Parts only go on by dragging (mouse practice). A plain click wiggles the part and shows a reminder.
+  let reminderTimer = null;
+  function dragReminder(item) {
+    item.classList.remove('nudge');
+    void item.offsetWidth;
+    item.classList.add('nudge');
+    const hint = document.getElementById('drag-hint');
+    hint.hidden = false;
+    clearTimeout(reminderTimer);
+    reminderTimer = setTimeout(() => { hint.hidden = true; }, 2500);
+  }
 
   /* ---------- Placed parts ---------- */
 
@@ -266,10 +271,6 @@
   function overTray(e) {
     const r = tray.getBoundingClientRect();
     return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-  }
-
-  function nearCenter() {
-    return { x: 0.5 + (Math.random() - 0.5) * 0.12, y: 0.55 + (Math.random() - 0.5) * 0.12 };
   }
 
   function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
