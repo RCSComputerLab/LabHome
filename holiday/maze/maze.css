@@ -12,10 +12,10 @@
 }
 .levels .label { font: 700 1.1rem var(--font); margin-right: 4px; }
 .levels button {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  font: 700 1.25rem var(--font-title);
+  font: 700 1.1rem var(--font-title);
   color: var(--ink);
   cursor: pointer;
   background: rgba(255, 255, 255, 0.12);

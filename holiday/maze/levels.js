@@ -49,7 +49,79 @@ window.MazeLevels = [
     '#####.#',
     '#y....#',
     '#.#####',
-    '#...c.#'] }
+    '#...c.#'] },
+  { hint: 'Climb the stairs! Repeat ➡️ ⬆️.', repeat: true, rows: [
+    '#####.p',
+    '####..#',
+    '###..##',
+    '##..###',
+    'T..####'] },
+  { hint: 'Try using two Repeat blocks!', repeat: true, rows: [
+    'T.....#',
+    '#####.#',
+    '#####.#',
+    '#####.#',
+    '#####.c'] },
+  { hint: 'Down the stairs to the left!', repeat: true, rows: [
+    '####..T',
+    '###..##',
+    '##..###',
+    '#..####',
+    'c.#####'] },
+  { hint: 'Three apples! Go right, down, then left.', repeat: true, rows: [
+    '#######',
+    '#T.r.g#',
+    '#####.#',
+    '#y....#',
+    '#######'] },
+  { hint: 'Eat one, then turn around for the other!', repeat: true, rows: [
+    '#c...y#',
+    '###.###',
+    '###.###',
+    '###.###',
+    '###T###'] },
+  { hint: 'Find the pattern! Put 4 blocks in the Repeat.', repeat: true, rows: [
+    'T..####',
+    '##.####',
+    '##...##',
+    '####.##',
+    '####..p'] },
+  { hint: 'Twist and turn to the gourd!', repeat: true, rows: [
+    'T.....#',
+    '#####.#',
+    '#o#...#',
+    '#.#.###',
+    '#...###'] },
+  { hint: 'Snake through the field.', repeat: true, rows: [
+    'T.r...#',
+    '#####.#',
+    '#.c...#',
+    '#.#####',
+    '#....p#'] },
+  { hint: 'Watch out for the dead end!', repeat: true, rows: [
+    '#######',
+    '#T..#r#',
+    '###.#.#',
+    '#.....#',
+    '#c#####'] },
+  { hint: 'Over the hill and down again!', repeat: true, rows: [
+    '##.g.##',
+    '#..#..#',
+    '#.###.#',
+    '#.###.#',
+    'T.###.c'] },
+  { hint: 'Visit each field. Some paths are dead ends!', repeat: true, rows: [
+    '#y#.#c#',
+    '#.#.#.#',
+    '#.....#',
+    '###.###',
+    '###T###'] },
+  { hint: 'The Great Turkey Feast! Eat all six foods.', repeat: true, rows: [
+    'T.r.#.g',
+    '###.#.#',
+    'y...#.#',
+    '#.###.#',
+    '#c.o.p#'] }
 ];
 
 window.MazeFoods = {
