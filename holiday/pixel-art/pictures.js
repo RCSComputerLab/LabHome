@@ -20,10 +20,11 @@ window.PixelPictures = (function () {
     f: { hex: '#f6c9a0', name: 'Peach' },
     m: { hex: '#b07040', name: 'Copper' },
     q: { hex: '#7d3c98', name: 'Purple' },
-    h: { hex: '#4b5160', name: 'Dark gray' }
+    h: { hex: '#4b5160', name: 'Dark gray' },
+    c: { hex: '#8e1630', name: 'Dark red' }
   };
 
-  // small = K–2, medium = 3–4, large = 5–6
+  // small = K–2, medium = 3–4, large = 5–6, xlarge = a bigger challenge kids can pick
   const PICTURES = {
     small: [
       { id: 'turkey', name: 'Turkey', emoji: '🦃', rows: [
@@ -46,7 +47,10 @@ window.PixelPictures = (function () {
         '.kmmmmmmk.', '.kmmrrmmk.', '.kkmmmmkk.', 'ttsasasatt', 'tttttttttt'] },
       { id: 'cornucopia', name: 'Cornucopia', emoji: '🧺', rows: [
         '..........', '.....qq.g.', '.....qqrr.', 'b...uuqrrr', 'bu.uutuyyr',
-        '.buutuuyya', '.butuuoooa', '..buuooooo', '...buuoooo', '.....uu...'] }
+        '.buutuuyya', '.butuuoooa', '..buuooooo', '...buuoooo', '.....uu...'] },
+      { id: 'cranberry', name: 'Cranberries', emoji: '🍒', rows: [
+        '...ggbgg..', '....b.b...', '...b..b...', '..rr..rr..', '.rwrrrwrr.',
+        '.rrrcrrrc.', '..ccrrcc..', '...rwrr...', '...rrrc...', '....cc....'] }
     ],
     medium: [
       { id: 'turkey', name: 'Turkey', emoji: '🦃', rows: [
@@ -83,7 +87,12 @@ window.PixelPictures = (function () {
         '................', '..........qq....', '.........qqqq.g.', '.........qqqggg.',
         'b.......uuqqrr..', 'bu.....uutuqrrr.', '.bu...uutuuyrrr.', '.buu.uutuuuyyy..',
         '..buuutuuuoyyya.', '..buutuuuoooyya.', '...butuuooooooa.', '....buuuuoooooo.',
-        '.....buuuuooooo.', '.......uuuu.....', '................', '................'] }
+        '.....buuuuooooo.', '.......uuuu.....', '................', '................'] },
+      { id: 'cranberry', name: 'Cranberries', emoji: '🍒', rows: [
+        '...gg......gg...', '...ggg..b.ggg...', '....gggbbggg....', '.....gg.bgg.....',
+        '......b.b.b.....', '.....b..brrr....', '...rrr.brwwrr...', '..rwwrrbrwrrr...',
+        '..rwrrrbrrrrc...', '..rrrrcb.ccc....', '...cccrrr.......', '.....rwwrr......',
+        '.....rwrrr......', '.....rrrrc......', '......ccc.......', '................'] }
     ],
     large: [
       { id: 'turkey', name: 'Turkey', emoji: '🦃', rows: [
@@ -148,7 +157,155 @@ window.PixelPictures = (function () {
         '..buuuuuuutuuuuyyyyyaaa.', '...buuuuutuuuuoyyyyyaaa.', '...buuuutuuuooooyyyaaa..',
         '....buutuuuoooooooyaa...', '.....butuuooooooooogg...', '......buuuooooooooogg...',
         '.......buuuooooooooo....', '........buuuooooooo.....', '..........uuuu..........',
-        '........................', '........................', '........................'] }
+        '........................', '........................', '........................'] },
+      { id: 'cranberry', name: 'Cranberries', emoji: '🍒', rows: [
+        '.....ggg.........ggg....', '.....gggg.......gggg....', '......gggg..b..gggg.....',
+        '.......ggggbbbgggg......', '........gggbbbggg.......', '.........b.b.b.b........',
+        '........b..brrr.b.......', '.......b...rwwrr.b......', '.....rrr..rwwrrrr.b.....',
+        '....rwwrr.rwrrrrc.rrr...', '...rwwrrrrrrrrrrcrwwrr..', '...rwrrrrcbrrrccrwwrrrr.',
+        '...rrrrrrcb.cccbrwrrrrc.', '....rrrccb......rrrrrrc.', '.....cccrrr.....brrrcc..',
+        '.......rwwrr...rrrccc...', '......rwwrrrr.rwwrr.....', '......rwrrrrcrwwrrrr....',
+        '......rrrrrrcrwrrrrc....', '.......rrrcc.rrrrrrc....', '........ccc...rrrcc.....',
+        '...............ccc......', '........................', '........................'] }
+    ],
+    // x-large = 32 × 32, extra detail for the oldest grades
+    xlarge: [
+      { id: 'turkey', name: 'Turkey', emoji: '🦃', rows: [
+        '................................', '................................',
+        '................p...............', '...........rrrrrprrrr...........',
+        '........prrrrrrrprrrrrrp........', '.......rrprrrrrrprrrrrprr.......',
+        '......rrrproooobboooorprrr......', '.....rrrropoobbbbbbooporrrr.....',
+        '....rrrroopobwbbbbwbopoorrrr....', '...rrrroooopbkbbbbkbpoooorrrr...',
+        '...pprooooybbbbbbbbbbyoooorpp...', '..rrrppooyybbbbaabbbbyyoopprrr..',
+        '..rrroopoyyybbbaarbbyyyopoorrr..', '..rrrooopyyybbbbrrbbyyypooorrr..',
+        '.rrrooooyyyyybbbbrbyyyyyoooorrr.', '.rrroooyyyybbbbbbbbbbyyyyooorrr.',
+        '.rrroooyyybbbbbbbbbbbbyyyooorrr.', '.rrroooyyybbbbbbbbbbbbyyyooorrr.',
+        '.rrroooyybbbbbbbbbbbbbbyyooorrr.', '.rrroooyybbbbbbbbbbbbbbyyooorrr.',
+        '.rrrooooybbbbttttttbbbbyoooorrr.', '..rrrooobbbbttttttttbbbbooorrr..',
+        '..rrroooobbbttttttttbbboooorrr..', '.........bbbttttttttbbb.........',
+        '.........bbbttttttttbbb.........', '..........bbttttttttbb..........',
+        '..........bbttttttttbb..........', '...........bbttttttbb...........',
+        '.............bbbbbb.............', '............a......a............',
+        '............a......a............', '..........aaaaa..aaaaa..........'] },
+      { id: 'pumpkin', name: 'Pumpkin', emoji: '🎃', rows: [
+        '................................', '................................',
+        '...............ddd..............', '...............ddd..............',
+        '..............dddd....gg........', '..........ggg.dddd...g..gg......',
+        '.........gggggdddd.gg....g......', '.........gggggddddg.......g.....',
+        '..........ggg.dddd..............', '..............dddd..............',
+        '..........oopppoopppoo..........', '.......oooppopoooopoppooo.......',
+        '......ooopoooooooooooopooo......', '.....oyopooopoooooopooopooo.....',
+        '....ooyppooooooooooooooppooo....', '...ooyopooopoooooooopooopoooo...',
+        '..oooyopooopoooooooopooopooooo..', '..oooypoooopoooooooopoooopoooo..',
+        '..oooypoooopoooooooopoooopoooo..', '..oooypoooooooooooooooooopoooo..',
+        '..oooypoooooooooooooooooopoooo..', '..oooypoooopoooooooopoooopoooo..',
+        '..oooopoooopoooooooopoooopoooo..', '..ooooopooopoooooooopooopooooo..',
+        '...oooopooopoooooooopooopoooo...', '....oooppooooooooooooooppooo....',
+        '.....ooopooopoooooopooopooo.....', '......ooopoooooooooooopooo......',
+        '.......oooppopoooopoppooo.......', '..........oopppoopppoo..........',
+        '................................', '................................'] },
+      { id: 'pie', name: 'Pumpkin Pie', emoji: '🥧', rows: [
+        '................................', '................................',
+        '................................', '................................',
+        '................................', '................................',
+        '................................', '................................',
+        '................w...............', '..............wwww..............',
+        '.............wwwwww.............', '.............wewwww.............',
+        '............wwwwwwww............', '.........ttwwewwwwwwwtt.........',
+        '.....ttnnnnwwwewwwwwwnnnntt.....', '...tnnnnnnnnwwwwwwwwnnnnnnnnt...',
+        '..tnnnnnnnnnnnnwwnnnnnnnnnnnnt..', '..tnununununununununununununut..',
+        '..tnnnnnnnnnnnnnnnnnnnnnnnnnnt..', '...tnnnnnnnnnnnnnnnnnnnnnnnnt...',
+        '...ttttnnnnnnnnnnnnnnnnnntttt...', '...tttttttttttttttttttttttttt...',
+        '...tttttttttttttttttttttttttt...', '..ssuuuuuuuuuuuuuuuuuuuuuuuuss..',
+        '.sssuuuuuuuuuuuuuuuuuuuuuuuusss.', 'ssssssssssssssssssssssssssssssss',
+        '.ssssssssssssssssssssssssssssss.', '..ssvvvvvvvvvvvvvvvvvvvvvvvvss..',
+        '....vvvvvvvvvvvvvvvvvvvvvvvv....', '......vvvvvvvvvvvvvvvvvvvv......',
+        '.............vvvvvv.............', '................................'] },
+      { id: 'slice', name: 'Pie Slice', emoji: '🍰', rows: [
+        '................................', '................................',
+        '................................', '................................',
+        '................................', '................................',
+        '................................', '..................w.............',
+        '.................ww.............', '...............wwwww............',
+        '..............wwwwwww...........', '..............wewwwww.....ouuuu.',
+        '.............wwwwwwwww.oooottttu', '............wwewwwwwwwwoooottttu',
+        '.............wwewwwwwwooooottttu', '..............wwwwwwwoooooottttu',
+        '.............oooowooooooooottttu', '..........ooooooooooooooooottttu',
+        '.......oooooooooooooooooooottttu', '.....oooooooooooooooooooooottttu',
+        '..ooooooooooooooooooooooooottttu', '..nnnnnnnnnnnnnnnnnnnnnnnnnttttu',
+        '..nnnnnnnnnnnnnnnnnnnnnnnnnttttu', '..nnnnnnnnnnnnnnnnnnnnnnnnnttttu',
+        '..npnnnpnnnpnnnpnnnpnnnpnnnttttu', '..nnnnnnnnnnnnnnnnnnnnnnnnnttttu',
+        '..nnnnnnnnnnnnnnnnnnnnnnnnnttttu', '..nnnnnnnnnnnnnnnnnnnnnnnnnttttu',
+        '.uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu', '.uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu',
+        '................................', '................................'] },
+      { id: 'pilgrim', name: 'Pilgrim', emoji: '🎩', rows: [
+        '................................', '..........kkkkkkkkkkkk..........',
+        '..........kkkkkkkkkkkk..........', '..........kkkkkkkkkkkk..........',
+        '..........kkkkkkkkkkkk..........', '..........kkkkkkkkkkkk..........',
+        '..........kkkkkkkkkkkk..........', '..........kkkaaaaaakkk..........',
+        '..........kkkaakkaakkk..........', '..........kkkaakkaakkk..........',
+        '..........kkkaakkaakkk..........', '....kkkkkkkkkkkkkkkkkkkkkkkk....',
+        '....kkkkkkkkkkkkkkkkkkkkkkkk....', '.......bbffffffffffffffbb.......',
+        '.......bbffffffffffffffbb.......', '.......bbffffffffffffffbb.......',
+        '.......bbffwkffffffwkffbb.......', '.......bbffkkffffffkkffbb.......',
+        '.......bbffffffffffffffbb.......', '.......bbffffffffffffffbb.......',
+        '.........fffrffffffrfff.........', '.........ffffrrrrrrffff.........',
+        '..........ffffffffffff..........', '...........ffffffffff...........',
+        '............ffffffff............', '......wwwwwwwwwwwwwwwwwwww......',
+        '.....hhwwwwwwwwwwwwwwwwwhhh.....', '..hhhhhhwwwwwwwwwwwwwwwhhhhhhh..',
+        'hhhhhhhhhwwwwwwwwwwwwwhhhhhhhhhh', 'hhhhhhhhhhwwwwwwwwwwwhhhhhhhhhhh',
+        'hhhhhhhhhhhhhhhwwhhhhhhhhhhhhhhh', 'hhhhhhhhhhhhhhhwwhhhhhhhhhhhhhhh'] },
+      { id: 'wampanoag', name: 'Wampanoag Man', emoji: '🪶', rows: [
+        '......................kk........', '......................ww........',
+        '......................ww........', '......................ww........',
+        '......................ww........', '......................ww........',
+        '...........kkkkkkkkkk.ww........', '.........kkkkkkkkkkkkkkw........',
+        '........kkkkkkkkkkkkkkkk........', '......asasasasasasasasasas......',
+        '......kkkkkkkmmmmmmkkkkkkk......', '......kkkkkmmmmmmmmmmkkkkk......',
+        '......kkkkmmmmmmmmmmmmkkkk......', '......kkkkmmmmmmmmmmmmkkkk......',
+        '......kkkmmmmmmmmmmmmmmkkk......', '......kkkmmwkmmmmmmwkmmkkk......',
+        '......kkkmmkkmmmmmmkkmmkkk......', '......kkmmmmmmmmmmmmmmmmkk......',
+        '......kkkmmmmmbbbbmmmmmkkk......', '......kkkmmmmmmmmmmmmmmkkk......',
+        '......kkkmmmmmmmmmmmmmmkkk......', '......kkkkmmmrrrrrrmmmkkkk......',
+        '......kkkkmmmmmmmmmmmmkkkk......', '......kkkkkmmmmmmmmmmkkkkk......',
+        '......kkkkkkkmmmmmmkkkkkkk......', '......kkkkkkkmmmmmmkkkkkkk......',
+        '....ttkkkkkkkmmmmmmkkkkkkkt.....', '.tttttkkkkttttttttttttkkkktttt..',
+        'ttttttkkkktrsarsarsartkkkktttttt', 'ttttttkkkktttttwwtttttkkkktttttt',
+        'ttttttkkkktttttwwtttttkkkktttttt', 'dtdtdtkkkkdtdtdtdtdtdtkkkkdtdtdt'] },
+      { id: 'cornucopia', name: 'Cornucopia', emoji: '🧺', rows: [
+        '................................', '................................',
+        '................................', '................................',
+        'bb..............gggggg..........', 'bbut............gggggg..........',
+        'butuu..............qqqqqq.......', '.bubut............qwqqqqqq......',
+        '..uutuu...........qqqqwqqqq.....', '..utubut..........qqqqqqqqq.....',
+        '..tuuutuuu.........qqqqqqqq..gg.', '...uutubutuu........qqqqqq..b...',
+        '...utuuutuuutub.....qqqqq.rrrr..', '...tuuutubutuuutuu..qqqqqrwrrrr.',
+        '....butuuutuuutubutuqqqqyrrrrrr.', '....utuuutubutuuutubbbqyayrrrrrr',
+        '.....ubutuuutuuutubbbb.yyyrrrrr.', '.....uutuuutubutuubbbbyyayyrrrr.',
+        '......tubutuuutuuubbbbyyyyyrrr..', '.......uutuuutubutbbbbyyayy.....',
+        '.......utubutuuutubbbbyyyyy.ggg.', '........uuutuuutubbbbbyyaydggggg',
+        '.........utubutuuubbbbbyyyd.ggg.', '..........uuutuuutbbbbgyaopo....',
+        '...........utubutubbbggooopooo..', '.............uutuubbbgoooopoooo.',
+        '..............tubutbbgoooopoooo.', '.................tubbboooopoooo.',
+        '....................b.oooopoooo.', '.......................ooopooo..',
+        '.........................ooo....', '................................'] },
+      { id: 'cranberry', name: 'Cranberries', emoji: '🍒', rows: [
+        '......ggg..............ggg......', '......gggggg........gggggg......',
+        '.......ggggggg....ggggggg.......', '........gggggg..b.gggggg........',
+        '..........gggg.bbbgggg..........', '............ggbbbbgg............',
+        '.............b.b.bb.............', '............b..b.b.b............',
+        '............b..brrrb............', '...........b..rrrrrrr...........',
+        '..........b...rwwrrrrb..........', '.......rrr...rwwrrrrrc..........',
+        '.....rrrrrrr.rwrrrrrrcb.........', '.....rwwrrrr.rrrrrrrrc.b........',
+        '....rwwrrrrrcbrrrrrcc..rrr......', '....rwrrrrrrcbrrrccc.rrrrrrr....',
+        '....rrrrrrrrc...cccb.rwwrrrr....', '.....rrrrrccb......brwwrrrrrc...',
+        '.....rrrccc.b.......rwrrrrrrc...', '.......ccc..b.......rrrrrrrrc...',
+        '..........rrr......rrrrrrrcc....', '........rrrrrrr..rrrrrrrccc.....',
+        '........rwwrrrr..rwwrrrrcc......', '.......rwwrrrrrcrwwrrrrrc.......',
+        '.......rwrrrrrrcrwrrrrrrc.......', '.......rrrrrrrrcrrrrrrrrc.......',
+        '........rrrrrcc..rrrrrcc........', '........rrrccc...rrrccc.........',
+        '..........ccc......ccc..........', '................................',
+        '................................', '................................'] }
     ]
   };
 
