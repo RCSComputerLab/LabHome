@@ -32,13 +32,16 @@
 
   if (window.Sky) Sky.buildSky();
 
-  /* ---------- Saving which levels a student has reached ---------- */
+  /* ---------- Remembering which levels a student has reached ----------
+     Kept only until the browser closes, so every new login starts again at level 1.
+     (Going Back to the Holiday page and returning keeps their place.) */
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* older saved progress: no longer used */ }
   function loadReached() {
-    try { return Math.max(0, Math.min(LEVELS.length - 1, parseInt(localStorage.getItem(SAVE_KEY), 10) || 0)); }
+    try { return Math.max(0, Math.min(LEVELS.length - 1, parseInt(sessionStorage.getItem(SAVE_KEY), 10) || 0)); }
     catch (e) { return 0; }
   }
   function saveReached() {
-    try { localStorage.setItem(SAVE_KEY, String(reached)); } catch (e) { /* private window: fine */ }
+    try { sessionStorage.setItem(SAVE_KEY, String(reached)); } catch (e) { /* private window: fine */ }
   }
 
   const sleep = ms => new Promise(r => setTimeout(r, ms));
