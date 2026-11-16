@@ -16,7 +16,11 @@ window.PixelPictures = (function () {
     w: { hex: '#ffffff', name: 'White' },
     e: { hex: '#d6dde8', name: 'Light gray' },
     s: { hex: '#5aa0e0', name: 'Blue' },
-    v: { hex: '#2f6fb0', name: 'Dark blue' }
+    v: { hex: '#2f6fb0', name: 'Dark blue' },
+    f: { hex: '#f6c9a0', name: 'Peach' },
+    m: { hex: '#b07040', name: 'Copper' },
+    q: { hex: '#7d3c98', name: 'Purple' },
+    h: { hex: '#4b5160', name: 'Dark gray' }
   };
 
   // small = K–2, medium = 3–4, large = 5–6
@@ -33,7 +37,16 @@ window.PixelPictures = (function () {
         '.ooodooo..', '..oodoo...', '...odo....', '....d.....', '....d.....'] },
       { id: 'slice', name: 'Pie Slice', emoji: '🍰', rows: [
         '..........', '......w...', '.....www..', '....wwwww.', '...oowwwot',
-        'oooooooott', 'nnnnnnnnnt', 'nnnnnnnnnt', 'uuuuuuuuuu', '..........'] }
+        'oooooooott', 'nnnnnnnnnt', 'nnnnnnnnnt', 'uuuuuuuuuu', '..........'] },
+      { id: 'pilgrim', name: 'Pilgrim', emoji: '🎩', rows: [
+        '...kkkk...', '...kaak...', '.kkkkkkkk.', '..bffffb..', '..fkffkf..',
+        '..ffrrff..', '...ffff...', '.wwwwwwww.', 'hhhwwwwhhh', 'hhhhhhhhhh'] },
+      { id: 'wampanoag', name: 'Wampanoag Man', emoji: '🪶', rows: [
+        '.......w..', '..kkkkkb..', '.kkkkkkkk.', '.kmmmmmmk.', '.kmkmmkmk.',
+        '.kmmmmmmk.', '.kmmrrmmk.', '.kkmmmmkk.', 'ttsasasatt', 'tttttttttt'] },
+      { id: 'cornucopia', name: 'Cornucopia', emoji: '🧺', rows: [
+        '..........', '.....qq.g.', '.....qqrr.', 'b...uuqrrr', 'bu.uutuyyr',
+        '.buutuuyya', '.butuuoooa', '..buuooooo', '...buuoooo', '.....uu...'] }
     ],
     medium: [
       { id: 'turkey', name: 'Turkey', emoji: '🦃', rows: [
@@ -55,7 +68,22 @@ window.PixelPictures = (function () {
         '................', '................', '................', '..........w.....',
         '.........www....', '........wwwww...', '.......wwwewwwtt', '......wweewwwwtt',
         '......owwwwwwott', '...ooooooooooott', 'oooooooooooooott', 'nnnnnnnnnnnnnntt',
-        'nnnnnnnnnnnnnntt', 'nnnnnnnnnnnnnntt', 'uuuuuuuuuuuuuuuu', '................'] }
+        'nnnnnnnnnnnnnntt', 'nnnnnnnnnnnnnntt', 'uuuuuuuuuuuuuuuu', '................'] },
+      { id: 'pilgrim', name: 'Pilgrim', emoji: '🎩', rows: [
+        '................', '.....kkkkkk.....', '.....kkkkkk.....', '.....kkkkkk.....',
+        '.....kaaaak.....', '.....kakkak.....', '..kkkkkkkkkkkk..', '....bffffffb....',
+        '....bfkffkfb....', '....bffffffb....', '....bffrrffb....', '.....ffffff.....',
+        '...wwwwwwwwww...', '.hhhhwwwwwwhhhh.', 'hhhhhhwwwwhhhhhh', 'hhhhhhhhhhhhhhhh'] },
+      { id: 'wampanoag', name: 'Wampanoag Man', emoji: '🪶', rows: [
+        '..........w.....', '..........w.....', '.....kkkkkbk....', '....kkkkkkkkk...',
+        '...kkkkkkkkkkk..', '...kkmmmmmmmkk..', '...kmmkmmmkmmk..', '...kmmmmmmmmmk..',
+        '...kmmmmmmmmmk..', '...kmmmrrrmmmk..', '...kkmmmmmmmkk..', '...kk.mmmmm.kk..',
+        '.ttkttsasastktt.', 'tttttttttttttttt', 'tttttttttttttttt', 'tdtdtdtdtdtdtdtd'] },
+      { id: 'cornucopia', name: 'Cornucopia', emoji: '🧺', rows: [
+        '................', '..........qq....', '.........qqqq.g.', '.........qqqggg.',
+        'b.......uuqqrr..', 'bu.....uutuqrrr.', '.bu...uutuuyrrr.', '.buu.uutuuuyyy..',
+        '..buuutuuuoyyya.', '..buutuuuoooyya.', '...butuuooooooa.', '....buuuuoooooo.',
+        '.....buuuuooooo.', '.......uuuu.....', '................', '................'] }
     ],
     large: [
       { id: 'turkey', name: 'Turkey', emoji: '🦃', rows: [
@@ -93,7 +121,34 @@ window.PixelPictures = (function () {
         '..........wwwwwwooootttu', '.......oooooooooooootttu', '....ooooooooooooooootttu',
         'ooooooooooooooooooootttu', 'nnnnnnnnnnnnnnnnnnnntttu', 'nnnnnnnnnnnnnnnnnnnntttu',
         'nnnnnnnnnnnnnnnnnnnntttu', 'nnnnnnnnnnnnnnnnnnnntttu', 'nnnnnnnnnnnnnnnnnnnntttu',
-        'uuuuuuuuuuuuuuuuuuuuuuuu', '........................', '........................'] }
+        'uuuuuuuuuuuuuuuuuuuuuuuu', '........................', '........................'] },
+      { id: 'pilgrim', name: 'Pilgrim', emoji: '🎩', rows: [
+        '........................', '........kkkkkkkk........', '........kkkkkkkk........',
+        '........kkkkkkkk........', '........kkkkkkkk........', '........kkkkkkkk........',
+        '........kaaaaaak........', '........kakkkkak........', '........kaaaaaak........',
+        '....kkkkkkkkkkkkkkkk....', '......bffffffffffb......', '......bffkkffkkffb......',
+        '......bffkkffkkffb......', '......bffffffffffb......', '......bfffrffrfffb......',
+        '.......fffrrrrfff.......', '........ffffffff........', '..........ffff..........',
+        '.....wwwwwwwwwwwwww.....', '...hhhwwwwwwwwwwwwhhh...', '..hhhhhhwwwwwwwwhhhhhh..',
+        '.hhhhhhhhhwwwwhhhhhhhhh.', 'hhhhhhhhhhhhhhhhhhhhhhhh', 'hhhhhhhhhhhhhhhhhhhhhhhh'] },
+      { id: 'wampanoag', name: 'Wampanoag Man', emoji: '🪶', rows: [
+        '...............kk.......', '...............ww.......', '...............ww.......',
+        '.......kkkkkkkkww.......', '......kkkkkkkkkkbk......', '.....kkkkkkkkkkkkkk.....',
+        '.....ksasasasasasak.....', '.....kmmmmmmmmmmmmk.....', '.....kmmkkmmmmkkmmk.....',
+        '.....kmmkkmmmmkkmmk.....', '.....kmmmmmmmmmmmmk.....', '.....kmmmmmmmmmmmmk.....',
+        '.....kmmmmrrrrmmmmk.....', '.....kkmmmmmmmmmmkk.....', '.....kkkmmmmmmmmkkk.....',
+        '.....kkk..mmmm..kkk.....', '....kkkk..mmmm..kkkk....', '..tttkkkttmmmmttkkkttt..',
+        '.ttttkkktsasasatkkktttt.', 'tttttkkttttssttttkkttttt', 'tttttttttttttttttttttttt',
+        'tttttttttttttttttttttttt', 'tttttttttttttttttttttttt', 'tdtdtdtdtdtdtdtdtdtdtdtd'] },
+      { id: 'cornucopia', name: 'Cornucopia', emoji: '🧺', rows: [
+        '........................', '........................', '..................g.....',
+        '...............qqqgg....', '..............qqqqqgg...', '..............qqqqq.....',
+        'bb............qqqqrrr...', 'b.u..........uqqqrrrrr..', 'b.uu........uuuqqrrrrr..',
+        '.buuu......uutuuqrrrrr..', '.buuuu....uutuuuyyrrr...', '..buuuu..uutuuuyyyyy.a..',
+        '..buuuuuuutuuuuyyyyyaaa.', '...buuuuutuuuuoyyyyyaaa.', '...buuuutuuuooooyyyaaa..',
+        '....buutuuuoooooooyaa...', '.....butuuooooooooogg...', '......buuuooooooooogg...',
+        '.......buuuooooooooo....', '........buuuooooooo.....', '..........uuuu..........',
+        '........................', '........................', '........................'] }
     ]
   };
 
