@@ -1,7 +1,7 @@
 /* Pixel Art: color-by-number Thanksgiving pictures, or free drawing on a blank grid. */
 (function () {
   const { COLORS, PICTURES, FREE_COLORS } = window.PixelPictures;
-  const FREE_SIZES = { small: 10, medium: 16, large: 24 };
+  const FREE_SIZES = { small: 10, medium: 16, large: 24, xlarge: 32 };
   const GRADE_SIZE = { K: 'small', 1: 'small', 2: 'small', 3: 'medium', 4: 'medium', 5: 'large', 6: 'large' };
   const CONFIG_URL = '../../data/config.json';
 
@@ -65,9 +65,29 @@
     progress.textContent = '';
   }
 
+  /* Every square gets the same whole number of screen pixels, even with Windows display scaling
+     (125%, 150%), so the grid never mixes slightly bigger and smaller squares. */
   function sizeNumbers() {
     const n = +getComputedStyle(board).getPropertyValue('--n');
-    board.style.setProperty('--num-size', Math.max(8, Math.round(board.clientWidth / n * 0.48)) + 'px');
+    const dpr = window.devicePixelRatio || 1;
+    const s = board.style;
+    s.width = s.height = s.gridTemplateColumns = s.gridTemplateRows = s.gap = s.padding = s.translate = '';
+    const avail = board.getBoundingClientRect().width * dpr;     // room the page gives the board, in screen pixels
+    const line = Math.max(1, Math.round(dpr));                   // grid line thickness, in screen pixels
+    const cell = Math.floor((avail - line * (n + 1)) / n);
+    const complete = board.classList.contains('complete');      // finished pictures hide the grid lines
+    const track = (complete ? cell + line : cell) / dpr;
+    const gap = complete ? 0 : line / dpr;
+    const pad = line / dpr;
+    s.boxSizing = 'border-box';
+    s.gridTemplateColumns = s.gridTemplateRows = `repeat(${n}, ${track}px)`;
+    s.gap = gap + 'px';
+    s.padding = pad + 'px';
+    s.width = s.height = (n * track + (n - 1) * gap + 2 * pad) + 'px';
+    // Nudge the board so its corner sits exactly on a screen pixel.
+    const r = board.getBoundingClientRect();
+    s.translate = `${-((r.left * dpr) % 1) / dpr}px ${-((r.top * dpr) % 1) / dpr}px`;
+    s.setProperty('--num-size', Math.max(8, Math.round(track * (n >= 32 ? 0.62 : 0.48))) + 'px');
   }
 
   /* ---------- Pickers and palette ---------- */
@@ -216,6 +236,7 @@
   function finish() {
     painting = false;
     board.classList.add('complete');
+    sizeNumbers();
     doneBanner.textContent = `🎉 You made a ${picture().name}!`;
     doneBanner.hidden = false;
     Sky.celebrate();
